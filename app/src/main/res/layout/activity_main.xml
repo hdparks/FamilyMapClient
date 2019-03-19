@@ -7,8 +7,9 @@
     tools:context=".MainActivity">
 
     <Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="54dp"
         android:background="@color/colorPrimaryDark"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -20,6 +21,13 @@
             android:textSize="20dp" />
 
     </Toolbar>
+
+    <FrameLayout
+        android:id="@+id/mainFrameLayout"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/toolbar"
+        android:layout_height="match_parent">
+    </FrameLayout>
 
 
 </android.support.constraint.ConstraintLayout>
