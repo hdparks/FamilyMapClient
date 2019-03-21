@@ -5,8 +5,6 @@
     android:layout_height="match_parent"
     tools:context=".LoginFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -28,6 +26,7 @@
                 android:text="Server Host:"/>
 
             <EditText
+                android:id="@+id/serverAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </LinearLayout>
@@ -47,6 +46,7 @@
                 android:text="Server Port:"/>
 
             <EditText
+                android:id="@+id/serverPort"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </LinearLayout>
@@ -64,6 +64,7 @@
                 android:text="User Name:"/>
 
             <EditText
+                android:id="@+id/userName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </LinearLayout>
@@ -82,6 +83,7 @@
                 android:text="Password:"/>
 
             <EditText
+                android:id="@+id/password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </LinearLayout>
@@ -99,6 +101,7 @@
                 android:text="First Name:"/>
 
             <EditText
+                android:id="@+id/firstName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </LinearLayout>
@@ -116,6 +119,7 @@
                 android:text="Last Name:"/>
 
             <EditText
+                android:id="@+id/lastName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </LinearLayout>
@@ -134,6 +138,7 @@
                 />
 
             <EditText
+                android:id="@+id/email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </LinearLayout>
@@ -159,6 +164,7 @@
                 >
 
                 <RadioButton
+                    android:id="@+id/male"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
@@ -168,6 +174,7 @@
                     android:text="Male"/>
 
                 <RadioButton
+                    android:id="@+id/female"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
