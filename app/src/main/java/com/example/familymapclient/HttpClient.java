@@ -11,6 +11,23 @@ public class HttpClient {
 
     private static final String LOG_TAG = "HttpClient";
 
+    public String postUrl(URL url, String JsonBody){
+        try {
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+            connection.setDoOutput(true);
+
+            //   Prepare JSON body
+            byte[] out = JsonBody.getBytes();
+            int len = out.length;
+            
+
+
+        } catch (Exception ex){
+            Log.e(LOG_TAG, ex.getMessage(), ex);
+        }
+    }
+
     public String getUrl(URL url){
         try {
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();

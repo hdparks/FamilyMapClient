@@ -6,10 +6,10 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LoginTask extends AsyncTask<URL, Void, String> {
+public class LoginTask extends AsyncTask<String, Void, String> {
 
     interface LoginTaskListener {
-        void taskCompleted(boolean result);
+        void loginTaskCompleted(boolean result);
     }
 
     private final List<LoginTaskListener> listeners = new ArrayList<>();
@@ -24,19 +24,19 @@ public class LoginTask extends AsyncTask<URL, Void, String> {
 
     private void fireTaskCompleted(boolean result){
         for (LoginTaskListener listener : listeners ){
-            listener.taskCompleted(result);
+            listener.loginTaskCompleted(result);
         }
     }
 
 
     @Override
-    protected String doInBackground(URL... urls) {
+    protected String doInBackground(String ... strings) {
 
         // Spin up a new HttpClient object
         HttpClient httpClient = new HttpClient();
 
         //  Build string
-        return httpClient.getUrl(urls[0]);
+        return httpClient.getUrl();
 
     }
 
@@ -44,10 +44,20 @@ public class LoginTask extends AsyncTask<URL, Void, String> {
     protected void onPostExecute(String result){
 
         //  Parse results
+        LoginResponseBody response = new JSONUtils().JsonToObject(result, LoginResponseBody.class);
 
+        //  Check to see if call succeeded
+        if(response.success){
 
+            //  Store authToken, userName, personID in DataCache
+            DataCache dataCache = DataCache.getInstance();
+            dataCache.userName = response.username;
+            dataCache.authToken = response.authToken;
+            dataCache.userPersonID = response.personID;
 
-        fireTaskCompleted(result);
+        }
+
+        fireTaskCompleted(response.success);
 
     }
 
