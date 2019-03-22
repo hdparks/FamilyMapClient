@@ -8,6 +8,10 @@ import com.example.familymapclient.model.Person;
  */
 public class DataCache {
 
+    public String serverAddress;
+    public String serverPort;
+    public String authToken;
+
     public Person userPerson;
 
     public Person[] persons;

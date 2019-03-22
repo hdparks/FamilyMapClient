@@ -59,7 +59,7 @@ public class DownloadTask extends AsyncTask<URL, Integer, String> {
             //  Build string
             String urlContent = httpClient.getUrl(urls[i]);
             if (urlContent != null){
-                content.append(urlContent);
+                 content.append(urlContent);
             }
 
             //  Update progress
