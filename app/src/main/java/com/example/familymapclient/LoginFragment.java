@@ -1,5 +1,6 @@
 package com.example.familymapclient;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,9 +12,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
-public class LoginFragment extends Fragment implements DownloadTask.DownloadTaskListener {
+public class LoginFragment extends Fragment implements LoginTask.LoginTaskListener {
 
     private static final String LOG_TAG = "AddressFragment";
 
@@ -72,12 +74,17 @@ public class LoginFragment extends Fragment implements DownloadTask.DownloadTask
 
 
     @Override
-    public void progressUpdated(int progress) {
+    public void loginTaskCompleted(boolean result) {
 
-    }
+        Context context  = getContext();
+        CharSequence text = result ? "Log In Successful!" : "Log In Failed!";
+        int duration = Toast.LENGTH_SHORT;
 
-    @Override
-    public void taskCompleted(String result) {
+        //  Make a quick toast
+        Toast.makeText(context,text,duration).show();
+
+        //  If successful, query for family data
+
 
     }
 }

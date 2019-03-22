@@ -12,7 +12,10 @@ public class DataCache {
     public String serverPort;
     public String authToken;
 
-    public Person userPerson;
+    
+    public String userName;
+    public String authToken;
+    public String userPersonID;
 
     public Person[] persons;
     public Event[] events;
