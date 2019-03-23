@@ -1,12 +1,17 @@
 package com.example.familymapclient;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
-import java.net.URL;
+import com.example.familymapclient.http.LoginResponseBody;
+
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class LoginTask extends AsyncTask<String, Void, String> {
+
+    private static final String LOG_TAG = "LoginTask";
 
     interface LoginTaskListener {
         void loginTaskCompleted(boolean result);
@@ -35,9 +40,18 @@ public class LoginTask extends AsyncTask<String, Void, String> {
         // Spin up a new HttpClient object
         HttpClient httpClient = new HttpClient();
 
-        //  Build string
-        return httpClient.getUrl();
+        try{
 
+            return httpClient.getUrl(new URLUtils().getLoginURL(), false);
+
+        } catch (MalformedURLException ex){
+
+            Log.e(LOG_TAG, ex.getMessage(), ex);
+
+        }
+
+        //  If something goes wrong, return null
+        return null;
     }
 
     @Override
@@ -55,6 +69,8 @@ public class LoginTask extends AsyncTask<String, Void, String> {
             dataCache.authToken = response.authToken;
             dataCache.userPersonID = response.personID;
 
+        } else {
+            Log.e(LOG_TAG, "Server sent following error: "+response.message);
         }
 
         fireTaskCompleted(response.success);

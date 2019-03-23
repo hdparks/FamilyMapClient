@@ -56,7 +56,7 @@ public class DownloadFamliyDataTask extends AsyncTask<Void, Void, String[]> {
         try{
 
             //  Parse result
-            if (result == null){ throw new Exception("Invalid response data"); }
+            if (result == null || result[0].isEmpty() || result[1].isEmpty()){ throw new Exception("Invalid response data"); }
 
             //  Create list of persons, events
             Person[] persons = JSONUtils.JsonToObject(result[0], Person[].class);

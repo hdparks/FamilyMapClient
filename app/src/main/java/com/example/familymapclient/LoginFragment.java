@@ -19,7 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-public class LoginFragment extends Fragment implements LoginTask.LoginTaskListener, DownloadFamliyDataTask.FamilyDataTaskListener {
+public class LoginFragment extends Fragment implements LoginTask.LoginTaskListener, RegisterTask.RegisterTaskListener, DownloadFamliyDataTask.FamilyDataTaskListener {
 
     private static final String LOG_TAG = "AddressFragment";
 
@@ -94,6 +94,9 @@ public class LoginFragment extends Fragment implements LoginTask.LoginTaskListen
         //  Sign in and Register handlers
         signInButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+
+
+
                 LoginTask loginTask = new LoginTask();
                 loginTask.registerListener(LoginFragment.this);
                 loginTask.execute();
@@ -104,6 +107,8 @@ public class LoginFragment extends Fragment implements LoginTask.LoginTaskListen
             @Override
             public void onClick(View v) {
                 RegisterTask registerTask = new RegisterTask();
+                registerTask.registerListener(LoginFragment.this);
+                registerTask.execute();
             }
         });
 
@@ -144,8 +149,25 @@ public class LoginFragment extends Fragment implements LoginTask.LoginTaskListen
         Toast.makeText(context,text,Toast.LENGTH_SHORT).show();
 
         //  If successful, query for family data
+        DownloadFamliyDataTask task = new DownloadFamliyDataTask();
+        task.registerListener(LoginFragment.this);
+        task.execute();
 
+    }
 
+    @Override
+    public void registerTaskCompleted(boolean result) {
+
+        Context context = getContext();
+        CharSequence text = result ? "Registration Successful!": "Registration Failed!";
+
+        //  Make a quick toast
+        Toast.makeText(context,text,Toast.LENGTH_SHORT).show();
+
+        //  If successful, query for family data
+        DownloadFamliyDataTask task = new DownloadFamliyDataTask();
+        task.registerListener(LoginFragment.this);
+        task.execute();
     }
 
     @Override
@@ -157,6 +179,6 @@ public class LoginFragment extends Fragment implements LoginTask.LoginTaskListen
         CharSequence text = result ? "Welcome, "+ dataCache.userPerson.getFirstName() + " " +  dataCache.userPerson.getLastName() : "Error Getting Family Data";
 
         //  Make some toast
-        Toast.makeText(context,text,Toast.LENGTH_SHORT)
+        Toast.makeText(context,text,Toast.LENGTH_SHORT);
     }
 }

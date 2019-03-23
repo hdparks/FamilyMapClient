@@ -21,8 +21,9 @@ public class MainActivity extends AppCompatActivity {
         FragmentManager fm = this.getSupportFragmentManager();
         LoginFragment loginFragment = (LoginFragment) fm.findFragmentById(R.id.mainFrameLayout);
         if ( loginFragment == null ){
-            loginFragment = LoginFragment.newInstance();
+            loginFragment = new LoginFragment();
             fm.beginTransaction().add(R.id.mainFrameLayout, loginFragment).commit();
+
         }
     }
 }
