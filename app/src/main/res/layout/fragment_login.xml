@@ -161,12 +161,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:id="@+id/gender"
+                android:checkedButton="@id/male"
+
                 >
 
                 <RadioButton
                     android:id="@+id/male"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/colorPrimary"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -176,7 +180,8 @@
                 <RadioButton
                     android:id="@+id/female"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/colorPrimary"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -184,6 +189,29 @@
                     android:text="Female"/>
 
             </RadioGroup>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:paddingTop="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/signIn"
+                android:text="Sign In"
+                android:enabled="false"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/register"
+                android:text="Register"
+                android:enabled="false"/>
+
 
         </LinearLayout>
 

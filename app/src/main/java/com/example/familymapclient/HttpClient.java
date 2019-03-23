@@ -28,7 +28,7 @@ public class HttpClient {
         }
     }
 
-    public String getUrl(URL url){
+    public String getUrl(URL url, boolean includeAuthentication){
         try {
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");

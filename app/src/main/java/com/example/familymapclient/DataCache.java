@@ -8,15 +8,17 @@ import com.example.familymapclient.model.Person;
  */
 public class DataCache {
 
+    //  Server/Login Data
     public String serverAddress;
     public String serverPort;
-    public String authToken;
 
-    
+    //  User Data
     public String userName;
     public String authToken;
     public String userPersonID;
+    public Person userPerson;
 
+    //  Family Data
     public Person[] persons;
     public Event[] events;
 
@@ -36,7 +38,6 @@ public class DataCache {
         instance.events = null;
         instance.persons = null;
     }
-
 
 
 }
