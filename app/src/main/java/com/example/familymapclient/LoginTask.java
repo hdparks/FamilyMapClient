@@ -58,7 +58,12 @@ public class LoginTask extends AsyncTask<String, Void, String> {
     protected void onPostExecute(String result){
 
         //  Parse results
+        if (result == null){
+            fireTaskCompleted(false);
+        }
         LoginResponseBody response = new JSONUtils().JsonToObject(result, LoginResponseBody.class);
+
+
 
         //  Check to see if call succeeded
         if(response.success){

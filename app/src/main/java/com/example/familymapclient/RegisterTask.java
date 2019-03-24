@@ -53,6 +53,9 @@ class RegisterTask extends AsyncTask<RegisterRequestBody, Void, String> {
     protected void onPostExecute(String result){
 
         //  Parse results into register response object
+        if (result == null){
+            fireTaskCompleted(false);
+        }
         LoginResponseBody response = new JSONUtils().JsonToObject(result, LoginResponseBody.class);
 
         //  Check for successful response

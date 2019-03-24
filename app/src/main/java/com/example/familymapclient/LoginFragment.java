@@ -95,17 +95,25 @@ public class LoginFragment extends Fragment implements LoginTask.LoginTaskListen
         signInButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
+            //  Update port and server data
+            DataCache dataCache = DataCache.getInstance();
+            dataCache.serverPort = serverPortEditText.getText().toString();
+            dataCache.serverAddress = serverAddressEditText.getText().toString();
 
-
-                LoginTask loginTask = new LoginTask();
-                loginTask.registerListener(LoginFragment.this);
-                loginTask.execute();
+            LoginTask loginTask = new LoginTask();
+            loginTask.registerListener(LoginFragment.this);
+            loginTask.execute();
             }
         });
 
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //  Update port and server data
+                DataCache dataCache = DataCache.getInstance();
+                dataCache.serverPort = serverPortEditText.getText().toString();
+                dataCache.serverAddress = serverAddressEditText.getText().toString();
+
                 RegisterTask registerTask = new RegisterTask();
                 registerTask.registerListener(LoginFragment.this);
                 registerTask.execute();
