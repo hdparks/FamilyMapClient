@@ -56,13 +56,13 @@ public class LoginTask extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPostExecute(String result){
-
+        Log.d(LOG_TAG,"onPostExecute recieved " + result);
         //  Parse results
         if (result == null){
             fireTaskCompleted(false);
+            return;
         }
         LoginResponseBody response = new JSONUtils().JsonToObject(result, LoginResponseBody.class);
-
 
 
         //  Check to see if call succeeded
