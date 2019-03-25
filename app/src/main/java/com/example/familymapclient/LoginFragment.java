@@ -2,6 +2,7 @@ package com.example.familymapclient;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -17,6 +18,9 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.familymapclient.http.LoginRequestBody;
+import com.example.familymapclient.http.RegisterRequestBody;
 
 
 public class LoginFragment extends Fragment implements LoginTask.LoginTaskListener, RegisterTask.RegisterTaskListener, DownloadFamliyDataTask.FamilyDataTaskListener {
@@ -100,9 +104,14 @@ public class LoginFragment extends Fragment implements LoginTask.LoginTaskListen
             dataCache.serverPort = serverPortEditText.getText().toString();
             dataCache.serverAddress = serverAddressEditText.getText().toString();
 
+
+            LoginRequestBody req = new LoginRequestBody(
+                    usernameEditText.getText().toString(),
+                    passwordEditText.getText().toString());
+
             LoginTask loginTask = new LoginTask();
             loginTask.registerListener(LoginFragment.this);
-            loginTask.execute();
+            loginTask.execute(req);
             }
         });
 
@@ -114,14 +123,25 @@ public class LoginFragment extends Fragment implements LoginTask.LoginTaskListen
                 dataCache.serverPort = serverPortEditText.getText().toString();
                 dataCache.serverAddress = serverAddressEditText.getText().toString();
 
+
+                RegisterRequestBody req = new RegisterRequestBody(
+                        usernameEditText.getText().toString(),
+                        passwordEditText.getText().toString(),
+                        emailEditText.getText().toString(),
+                        firstNameEditText.getText().toString(),
+                        lastNameEditText.getText().toString(),
+                        getGender()
+                        );
+
                 RegisterTask registerTask = new RegisterTask();
                 registerTask.registerListener(LoginFragment.this);
-                registerTask.execute();
+                registerTask.execute(req);
             }
         });
 
         return view;
     }
+
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -146,6 +166,10 @@ public class LoginFragment extends Fragment implements LoginTask.LoginTaskListen
                 emailEditText.getText().length() != 0 ;
     }
 
+    public String getGender(){
+        return genderGroup.getCheckedRadioButtonId() == R.id.male ? "m" : "f";
+    }
+
     @Override
     public void loginTaskCompleted(boolean result) {
 
@@ -154,12 +178,15 @@ public class LoginFragment extends Fragment implements LoginTask.LoginTaskListen
 
 
         //  Make a quick toast
-        Toast.makeText(context,text,Toast.LENGTH_SHORT).show();
+        Toast toast = Toast.makeText(context,text,Toast.LENGTH_SHORT);
+        toast.show();
 
         //  If successful, query for family data
-        DownloadFamliyDataTask task = new DownloadFamliyDataTask();
-        task.registerListener(LoginFragment.this);
-        task.execute();
+        if (result){
+            DownloadFamliyDataTask task = new DownloadFamliyDataTask();
+            task.registerListener(this);
+            task.execute();
+        }
 
     }
 
@@ -170,23 +197,27 @@ public class LoginFragment extends Fragment implements LoginTask.LoginTaskListen
         CharSequence text = result ? "Registration Successful!": "Registration Failed!";
 
         //  Make a quick toast
-        Toast.makeText(context,text,Toast.LENGTH_SHORT).show();
+        Toast toast = Toast.makeText(context,text,Toast.LENGTH_SHORT);
+        toast.show();
 
         //  If successful, query for family data
-        DownloadFamliyDataTask task = new DownloadFamliyDataTask();
-        task.registerListener(LoginFragment.this);
-        task.execute();
+        if(result){
+            DownloadFamliyDataTask task = new DownloadFamliyDataTask();
+            task.registerListener(this);
+            task.execute();
+        }
     }
 
     @Override
     public void familyDataTaskCompleted(boolean result) {
-
+        Log.d(LOG_TAG,"FamilyDataTask complete!");
         DataCache dataCache = DataCache.getInstance();
 
         Context context = getContext();
         CharSequence text = result ? "Welcome, "+ dataCache.userPerson.getFirstName() + " " +  dataCache.userPerson.getLastName() : "Error Getting Family Data";
 
         //  Make some toast
-        Toast.makeText(context,text,Toast.LENGTH_SHORT);
+        Toast.makeText(context,text,Toast.LENGTH_SHORT).show();
+
     }
 }

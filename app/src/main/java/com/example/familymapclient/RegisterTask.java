@@ -37,7 +37,7 @@ class RegisterTask extends AsyncTask<RegisterRequestBody, Void, String> {
 
         try{
 
-            return httpClient.getUrl(new URLUtils().getRegisterURL(), false);
+            return httpClient.postUrl(new URLUtils().getRegisterURL(), JSONUtils.ObjectToJson(body[0]),false);
 
         } catch (MalformedURLException ex){
 

@@ -24,7 +24,8 @@ public class HttpClient {
             if (includeAuthentication){
                 DataCache dataCache = DataCache.getInstance();
                 if (dataCache.authToken == null) { throw new Exception("No Authentication token found."); }
-                connection.setRequestProperty("Authentication", dataCache.authToken);
+                Log.d(LOG_TAG, "Sending Authroization token: "+dataCache.authToken);
+                connection.setRequestProperty("Authorization", dataCache.authToken);
             }
 
             connection.setDoOutput(true);
@@ -69,6 +70,16 @@ public class HttpClient {
         try {
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
+
+            //  Authentication
+            if (includeAuthentication){
+                DataCache dataCache = DataCache.getInstance();
+                if (dataCache.authToken == null) { throw new Exception("No Authentication token found."); }
+                Log.d(LOG_TAG, "Sending Authroization token: "+dataCache.authToken);
+                connection.setRequestProperty("Authorization", dataCache.authToken);
+            }
+
+
             connection.connect();
 
             if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
@@ -86,6 +97,8 @@ public class HttpClient {
                 in.close();
 
                 return response.toString();
+            } else{
+                Log.d(LOG_TAG, "Recieved invalid HTTP Response code: " + connection.getResponseCode());
             }
 
         } catch (Exception ex){

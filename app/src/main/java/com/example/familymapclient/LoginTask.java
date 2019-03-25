@@ -3,13 +3,14 @@ package com.example.familymapclient;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.example.familymapclient.http.LoginRequestBody;
 import com.example.familymapclient.http.LoginResponseBody;
 
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LoginTask extends AsyncTask<String, Void, String> {
+public class LoginTask extends AsyncTask<LoginRequestBody, Void, String> {
 
     private static final String LOG_TAG = "LoginTask";
 
@@ -35,14 +36,14 @@ public class LoginTask extends AsyncTask<String, Void, String> {
 
 
     @Override
-    protected String doInBackground(String ... strings) {
+    protected String doInBackground(LoginRequestBody... req) {
 
         // Spin up a new HttpClient object
         HttpClient httpClient = new HttpClient();
 
         try{
 
-            return httpClient.getUrl(new URLUtils().getLoginURL(), false);
+            return httpClient.postUrl(new URLUtils().getLoginURL(), JSONUtils.ObjectToJson(req[0]),false);
 
         } catch (MalformedURLException ex){
 
