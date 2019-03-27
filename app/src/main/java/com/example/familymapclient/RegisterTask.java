@@ -3,6 +3,7 @@ package com.example.familymapclient;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.example.familymapclient.http.HttpClient;
 import com.example.familymapclient.http.LoginResponseBody;
 import com.example.familymapclient.http.RegisterRequestBody;
 

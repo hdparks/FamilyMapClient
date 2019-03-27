@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SettingsActivity">
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TableRow>
+        <LinearLayout android:orientation="vertical">
+            <TextView
+                android:text="Life Story Lines"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:textSize=""/>
+            <TextView style="@style/label"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="Show Life Story Lines"/>
+        </LinearLayout>
+    </TableRow>
+
+    <TableRow padd>
+        <LinearLayout android:orientation="vertical">
+            <TextView
+                android:text="Family Tree Lines"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:textSize=""/>
+            <TextView style="@style/label"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="Show Tree Lines"/>
+        </LinearLayout>
+    </TableRow>
+
+    </TableLayout>
+
+</android.support.constraint.ConstraintLayout>
