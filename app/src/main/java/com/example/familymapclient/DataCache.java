@@ -11,6 +11,7 @@ public class DataCache {
     //  Server/Login Data
     public String serverAddress;
     public String serverPort;
+    public boolean isLoggedIn = false;
 
     //  User Data
     public String userName;

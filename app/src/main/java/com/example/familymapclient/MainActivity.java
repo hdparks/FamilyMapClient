@@ -1,5 +1,8 @@
 package com.example.familymapclient;
 
+import android.os.Parcelable;
+import android.provider.ContactsContract;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,18 +15,40 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-        //  Add LoginFragment if user is not logged in
-        createLoginFragment();
-        //  Add MapFragment if user is logged in
+        //  Assert login state
+        if (DataCache.getInstance().isLoggedIn){
+            //  Add MapFragment if user is logged in
+            displayMapFragment();
+        } else {
+            //  Add LoginFragment if user is not logged in
+            displayLoginFragment();
+        }
+
     }
 
-    private void createLoginFragment() {
-        FragmentManager fm = this.getSupportFragmentManager();
-        LoginFragment loginFragment = (LoginFragment) fm.findFragmentById(R.id.mainFrameLayout);
-        if ( loginFragment == null ){
-            loginFragment = new LoginFragment();
-            fm.beginTransaction().add(R.id.mainFrameLayout, loginFragment).commit();
 
+
+    private void displayLoginFragment() {
+        FragmentManager fm = this.getSupportFragmentManager();
+        Fragment fragment = fm.findFragmentById(R.id.mainFrameLayout);
+        if ( fragment == null ){
+            fragment = new LoginFragment();
+            fm.beginTransaction().add(R.id.mainFrameLayout, fragment).commit();
+        } else {
+            Fragment loginFragment = new LoginFragment();
+            fm.beginTransaction().replace(R.id.mainFrameLayout, loginFragment);
+        }
+    }
+
+    public void displayMapFragment() {
+        FragmentManager fm = this.getSupportFragmentManager();
+        Fragment fragment = fm.findFragmentById(R.id.mainFrameLayout);
+        if ( fragment == null ){
+            fragment = new MapFragment();
+            fm.beginTransaction().add(R.id.mainFrameLayout, fragment).commit();
+        } else {
+            Fragment mapFragment = new MapFragment();
+            fm.beginTransaction().replace(R.id.mainFrameLayout, mapFragment).commit();
         }
     }
 }

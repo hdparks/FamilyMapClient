@@ -219,5 +219,11 @@ public class LoginFragment extends Fragment implements LoginTask.LoginTaskListen
         //  Make some toast
         Toast.makeText(context,text,Toast.LENGTH_SHORT).show();
 
+        if (result){
+            //  Switch to Map Fragment
+            Log.d(LOG_TAG,"Switching from Login Fragment to Map Fragment");
+            ((MainActivity) getActivity()).displayMapFragment();
+        }
+
     }
 }

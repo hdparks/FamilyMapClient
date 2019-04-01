@@ -75,6 +75,7 @@ public class LoginTask extends AsyncTask<LoginRequestBody, Void, String> {
             dataCache.userName = response.username;
             dataCache.authToken = response.authToken;
             dataCache.userPersonID = response.personID;
+            dataCache.isLoggedIn = true;
 
         } else {
             Log.e(LOG_TAG, "Server sent following error: "+response.message);
