@@ -15,7 +15,7 @@
                 android:text="Life Story Lines"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:textSize=""/>
+                />
             <TextView style="@style/label"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
@@ -23,13 +23,12 @@
         </LinearLayout>
     </TableRow>
 
-    <TableRow padd>
+    <TableRow>
         <LinearLayout android:orientation="vertical">
             <TextView
                 android:text="Family Tree Lines"
                 android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:textSize=""/>
+                android:layout_width="wrap_content" />
             <TextView style="@style/label"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
