@@ -99,6 +99,8 @@ public class LoginFragment extends Fragment implements LoginTask.LoginTaskListen
         signInButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
+            Log.d(LOG_TAG,"Sign In Button Pressed");
+
             //  Update port and server data
             DataCache dataCache = DataCache.getInstance();
             dataCache.serverPort = serverPortEditText.getText().toString();
