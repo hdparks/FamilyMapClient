@@ -3,6 +3,12 @@ package com.example.familymapclient;
 import com.example.familymapclient.model.Event;
 import com.example.familymapclient.model.Person;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * Central holding pen for all synced data
  */
@@ -20,8 +26,11 @@ public class DataCache {
     public Person userPerson;
 
     //  Family Data
-    public Person[] persons;
-    public Event[] events;
+    public List<Person> persons;
+    public List<Event> events;
+    public Map<String, Person> personIDMap;
+    public Map<String, List<Event>> personEventListMap;
+
 
     private static DataCache instance;
 
@@ -39,6 +48,5 @@ public class DataCache {
         instance.events = null;
         instance.persons = null;
     }
-
 
 }

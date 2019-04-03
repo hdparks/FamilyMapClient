@@ -1,11 +1,11 @@
 package com.example.familymapclient;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.familymapclient.model.Event;
+import com.example.familymapclient.model.FamilyMember;
 import com.example.familymapclient.model.Person;
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.fonts.FontAwesomeIcons;
@@ -25,6 +26,10 @@ public class PersonActivity extends AppCompatActivity {
     public static final String EXTRA_PERSON_ID = "person";
     private Person person;
 
+    private ExpandableListView eventsAndFamily;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,18 +37,41 @@ public class PersonActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         this.person = intent.getParcelableExtra(EXTRA_PERSON_ID);
+
+        eventsAndFamily = findViewById(R.id.events_and_family);
+
+        //  Get events, family members for person
+        DataCache dataCache = DataCache.getInstance();
+
+        List<Event> events = dataCache.getPersonEvents(person.getPersonID());
+        // TODO: 4/3/2019 WRITE SORT FOR BIRTH < ELSE < DEATH
+
+        
+        List<FamilyMember> familyMembers = dataCache.getFamilyMembers(person.getPersonID());
+
+        eventsAndFamily.setAdapter(new ExpandableListAdapter(events, familyMembers, this));
+
     }
 
+
+    ////    BEGIN EXPANDABLE LIST ADAPTER
     private class ExpandableListAdapter extends BaseExpandableListAdapter {
         private static final int EVENT_GROUP_POSITION = 0;
         private static final int PERSON_GROUP_POSITION = 1;
 
         private final List<Event> eventList;
-        private final List<Person> personList;
+        private final List<FamilyMember> familyMemberList;
 
-        ExpandableListAdapter(List<Event> eventList, List<Person> personList){
+        public Activity getActivity() {
+            return activity;
+        }
+
+        private final Activity activity;
+
+        ExpandableListAdapter(List<Event> eventList, List<FamilyMember> personList, Activity activity){
             this.eventList = eventList;
-            this.personList = personList;
+            this.familyMemberList = personList;
+            this.activity = activity;
         }
 
         @Override
@@ -57,7 +85,7 @@ public class PersonActivity extends AppCompatActivity {
                 case EVENT_GROUP_POSITION:
                     return eventList.size();
                 case PERSON_GROUP_POSITION:
-                    return personList.size();
+                    return familyMemberList.size();
                 default:
                     throw new IllegalArgumentException("Unrecognized group position: " + groupPosition);
 
@@ -82,7 +110,7 @@ public class PersonActivity extends AppCompatActivity {
                 case EVENT_GROUP_POSITION:
                     return eventList.get(childPosition);
                 case PERSON_GROUP_POSITION:
-                    return personList.get(childPosition);
+                    return familyMemberList.get(childPosition);
                 default:
                     throw new IllegalArgumentException("Unrecognized group position: " + groupPosition);
             }
@@ -150,19 +178,16 @@ public class PersonActivity extends AppCompatActivity {
             ImageView genderIconView = itemView.findViewById(R.id.icon);
 
             //  Fill the right info based on the position
-            Person person = personList.get(childPosition);
-
-            // Figure out relationship
-            // TODO: 4/2/2019 Figure out relationships for bottom lines
+            FamilyMember familyMember = familyMemberList.get(childPosition);
 
             // Create Drawable gender icon
             Drawable genderIcon = new IconDrawable(getActivity(),
-                    person.getGender().equals('f') ? FontAwesomeIcons.fa_female : FontAwesomeIcons.fa_male)
+                    familyMember.getGender().equals('f') ? FontAwesomeIcons.fa_female : FontAwesomeIcons.fa_male)
                     .colorRes(R.color.male_icon).sizeDp(40);
 
             //  Apply attributes
             top_text.setText( person.getFirstName() + " " + person.getLastName() );
-            bot_text.setText( "TODO (Relation to current person)");
+            bot_text.setText( familyMember.getRelationship());
             genderIconView.setImageDrawable(genderIcon);
         }
 
@@ -192,5 +217,8 @@ public class PersonActivity extends AppCompatActivity {
             return false;
         }
     }
+    ////    END EXPANDABLE LIST ADAPTER
+
+
 
 }
