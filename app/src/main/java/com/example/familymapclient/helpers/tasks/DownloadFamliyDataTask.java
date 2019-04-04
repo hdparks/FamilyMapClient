@@ -1,11 +1,14 @@
-package com.example.familymapclient;
+package com.example.familymapclient.helpers.tasks;
 
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.example.familymapclient.http.EventResponse;
-import com.example.familymapclient.http.HttpClient;
-import com.example.familymapclient.http.PersonResponse;
+import com.example.familymapclient.helpers.FamilyDataParserSystem;
+import com.example.familymapclient.JSONUtils;
+import com.example.familymapclient.helpers.httpResponses.EventResponse;
+import com.example.familymapclient.helpers.HttpClient;
+import com.example.familymapclient.helpers.httpResponses.PersonResponse;
+import com.example.familymapclient.model.DataCache;
 
 import java.net.MalformedURLException;
 import java.util.ArrayList;
@@ -15,18 +18,18 @@ public class DownloadFamliyDataTask extends AsyncTask<Void, Void, String[]> {
 
     private static final String LOG_TAG = "DownloadFamilyDataTask";
 
-    interface FamilyDataTaskListener {
+    public interface DownloadFamilyDataTaskListener {
         void familyDataTaskCompleted(boolean result);
     }
 
-    private final List<FamilyDataTaskListener> listeners = new ArrayList<>();
+    private final List<DownloadFamilyDataTaskListener> listeners = new ArrayList<>();
 
-    void registerListener(FamilyDataTaskListener listener){
+    public void registerListener(DownloadFamilyDataTaskListener listener){
         listeners.add(listener);
     }
 
     private void fireFamilyDataTaskCompleted(boolean result){
-        for (FamilyDataTaskListener listener: listeners){
+        for (DownloadFamilyDataTaskListener listener: listeners){
             Log.d(LOG_TAG, "Family Data Task complete, alerting"+ listener.toString());
             listener.familyDataTaskCompleted(result);
         }
@@ -37,8 +40,8 @@ public class DownloadFamliyDataTask extends AsyncTask<Void, Void, String[]> {
         HttpClient httpClient = new HttpClient();
 
         try {
-            String persons = httpClient.getUrl(new URLUtils().getPersonURL(), true);
-            String events = httpClient.getUrl(new URLUtils().getEventURL(), true);
+            String persons = httpClient.getUrl(new HttpClient.URLUtils().getPersonURL(), true);
+            String events = httpClient.getUrl(new HttpClient.URLUtils().getEventURL(), true);
             Log.d(LOG_TAG, "doInBackground persons response: "+persons);
             Log.d(LOG_TAG, "doInBackground events response: "+events);
             String[] results =  { persons, events };

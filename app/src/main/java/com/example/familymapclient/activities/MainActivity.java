@@ -1,12 +1,14 @@
-package com.example.familymapclient;
+package com.example.familymapclient.activities;
 
-import android.os.Parcelable;
-import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.example.familymapclient.model.DataCache;
+import com.example.familymapclient.fragments.LoginFragment;
+import com.example.familymapclient.fragments.MapFragment;
+import com.example.familymapclient.R;
 import com.joanzapata.iconify.Iconify;
 import com.joanzapata.iconify.fonts.FontAwesomeModule;
 

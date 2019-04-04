@@ -1,4 +1,4 @@
-package com.example.familymapclient;
+package com.example.familymapclient.fragments;
 
 import android.content.Context;
 import android.net.Uri;
@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.familymapclient.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;

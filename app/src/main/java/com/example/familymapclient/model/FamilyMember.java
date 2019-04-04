@@ -1,6 +1,12 @@
 package com.example.familymapclient.model;
 
-public class FamilyMember {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class FamilyMember implements Parcelable {
     String personID;
     String firstName;
     String lastName;
@@ -8,8 +14,12 @@ public class FamilyMember {
     String fatherID;
     String motherID;
     String spouseID;
-    String relationship;
-    String relID;
+    List<String> childrenIDList;
+
+
+    public List<String> getChildrenIDList() {
+        return childrenIDList;
+    }
 
     public String getPersonID() {
         return personID;
@@ -67,23 +77,9 @@ public class FamilyMember {
         this.spouseID = spouseID;
     }
 
-    public String getRelationship() {
-        return relationship;
-    }
 
-    public void setRelationship(String relationship) {
-        this.relationship = relationship;
-    }
 
-    public String getRelID() {
-        return relID;
-    }
-
-    public void setRelID(String relID) {
-        this.relID = relID;
-    }
-
-    FamilyMember(Person person, Person relation, String relationship){
+    public FamilyMember(Person person){
         this.personID = person.personID;
         this.firstName = person.firstName;
         this.lastName = person.lastName;
@@ -91,7 +87,42 @@ public class FamilyMember {
         this.fatherID = person.fatherID;
         this.motherID = person.motherID;
         this.spouseID = person.spouseID;
-        this.relID = relation.personID;
-        this.relationship = relationship;
+        this.childrenIDList = new ArrayList<>();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(personID);
+        dest.writeString(firstName);
+        dest.writeString(lastName);
+        dest.writeString(gender);
+        dest.writeString(fatherID);
+        dest.writeString(motherID);
+        dest.writeString(spouseID);
+        dest.writeStringList(childrenIDList);
+    }
+
+    public static final Parcelable.Creator<FamilyMember> CREATOR
+            = new Parcelable.Creator<FamilyMember>(){
+        public FamilyMember createFromParcel(Parcel in) { return new FamilyMember(in);}
+
+        @Override
+        public FamilyMember[] newArray(int size){ return new FamilyMember[size];}
+    };
+
+    private FamilyMember(Parcel in){
+        personID = in.readString();
+        firstName = in.readString();
+        lastName = in.readString();
+        gender  = in.readString();
+        fatherID = in.readString();
+        motherID = in.readString();
+        spouseID = in.readString();
+        in.readStringList(childrenIDList);
     }
 }

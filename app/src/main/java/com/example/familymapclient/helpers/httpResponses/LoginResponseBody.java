@@ -1,4 +1,4 @@
-package com.example.familymapclient.http;
+package com.example.familymapclient.helpers.httpResponses;
 
 public class LoginResponseBody {
     public boolean success;

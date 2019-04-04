@@ -1,9 +1,10 @@
-package com.example.familymapclient;
+package com.example.familymapclient.activities;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,20 +15,26 @@ import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.familymapclient.R;
+import com.example.familymapclient.model.DataCache;
 import com.example.familymapclient.model.Event;
 import com.example.familymapclient.model.FamilyMember;
 import com.example.familymapclient.model.Person;
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.fonts.FontAwesomeIcons;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class PersonActivity extends AppCompatActivity {
+
     public static final String EXTRA_PERSON_ID = "person";
-    private Person person;
+
+    private FamilyMember person;
 
     private ExpandableListView eventsAndFamily;
-
 
 
     @Override
@@ -36,21 +43,62 @@ public class PersonActivity extends AppCompatActivity {
         setContentView(R.layout.activity_person);
 
         Intent intent = getIntent();
+
         this.person = intent.getParcelableExtra(EXTRA_PERSON_ID);
+        this.eventsAndFamily = findViewById(R.id.events_and_family);
 
-        eventsAndFamily = findViewById(R.id.events_and_family);
 
-        //  Get events, family members for person
         DataCache dataCache = DataCache.getInstance();
 
-        List<Event> events = dataCache.getPersonEvents(person.getPersonID());
-        // TODO: 4/3/2019 WRITE SORT FOR BIRTH < ELSE < DEATH
 
-        
-        List<FamilyMember> familyMembers = dataCache.getFamilyMembers(person.getPersonID());
+        //  Get events, family members for person
+        List<Event> events = dataCache.personEventListMap.get(person.getPersonID());
+        Collections.sort(events, new BirthDeathSort());
 
-        eventsAndFamily.setAdapter(new ExpandableListAdapter(events, familyMembers, this));
+        List<Relation> relations = generateRelations(dataCache);
 
+        //  Set up ExpandableListAdapter
+        eventsAndFamily.setAdapter(new ExpandableListAdapter(events, relations, this));
+
+    }
+
+    private class BirthDeathSort implements Comparator<Event>{
+
+        @Override
+        public int compare(Event o1, Event o2) {
+            if (o1.getEventType().toLowerCase().equals("birth")) return -1;
+            if (o1.getEventType().toLowerCase().equals("death")) return 1;
+            if (o2.getEventType().toLowerCase().equals("birth")) return 1;
+            if (o2.getEventType().toLowerCase().equals("death")) return -1;
+            return 0;
+        }
+    }
+
+    private List<Relation> generateRelations(DataCache dataCache) {
+
+        List<Relation> relations = new ArrayList<>();
+        if (person.getMotherID() != null){
+            relations.add(new Relation(dataCache.familyMemberMap.get(person.getMotherID()), "Mother"));
+        }
+        if (person.getFatherID() != null){
+            relations.add(new Relation(dataCache.familyMemberMap.get(person.getFatherID()), "Father"));
+        }
+
+        for(String childID: person.getChildrenIDList()){
+            relations.add(new Relation(dataCache.familyMemberMap.get(childID), "Child"));
+        }
+
+        return relations;
+    }
+
+    private class Relation {
+        FamilyMember person;
+        String relation;
+
+        Relation(FamilyMember person, String relation){
+            this.person = person;
+            this.relation = relation;
+        }
     }
 
 
@@ -60,7 +108,7 @@ public class PersonActivity extends AppCompatActivity {
         private static final int PERSON_GROUP_POSITION = 1;
 
         private final List<Event> eventList;
-        private final List<FamilyMember> familyMemberList;
+        private final List<Relation> familyMemberList;
 
         public Activity getActivity() {
             return activity;
@@ -68,7 +116,7 @@ public class PersonActivity extends AppCompatActivity {
 
         private final Activity activity;
 
-        ExpandableListAdapter(List<Event> eventList, List<FamilyMember> personList, Activity activity){
+        ExpandableListAdapter(List<Event> eventList, List<Relation> personList, Activity activity){
             this.eventList = eventList;
             this.familyMemberList = personList;
             this.activity = activity;
@@ -178,16 +226,16 @@ public class PersonActivity extends AppCompatActivity {
             ImageView genderIconView = itemView.findViewById(R.id.icon);
 
             //  Fill the right info based on the position
-            FamilyMember familyMember = familyMemberList.get(childPosition);
+            Relation familyMember = familyMemberList.get(childPosition);
 
             // Create Drawable gender icon
             Drawable genderIcon = new IconDrawable(getActivity(),
-                    familyMember.getGender().equals('f') ? FontAwesomeIcons.fa_female : FontAwesomeIcons.fa_male)
+                    familyMember.person.getGender().equals("f") ? FontAwesomeIcons.fa_female : FontAwesomeIcons.fa_male)
                     .colorRes(R.color.male_icon).sizeDp(40);
 
             //  Apply attributes
             top_text.setText( person.getFirstName() + " " + person.getLastName() );
-            bot_text.setText( familyMember.getRelationship());
+            bot_text.setText( familyMember.relation);
             genderIconView.setImageDrawable(genderIcon);
         }
 

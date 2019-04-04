@@ -1,27 +1,29 @@
-package com.example.familymapclient;
+package com.example.familymapclient.helpers.tasks;
 
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.example.familymapclient.http.HttpClient;
-import com.example.familymapclient.http.LoginResponseBody;
-import com.example.familymapclient.http.RegisterRequestBody;
+import com.example.familymapclient.helpers.HttpClient;
+import com.example.familymapclient.helpers.httpResponses.LoginResponseBody;
+import com.example.familymapclient.helpers.httpRequests.RegisterRequestBody;
+import com.example.familymapclient.model.DataCache;
+import com.example.familymapclient.JSONUtils;
 
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
-class RegisterTask extends AsyncTask<RegisterRequestBody, Void, String> {
+public class RegisterTask extends AsyncTask<RegisterRequestBody, Void, String> {
 
     private static final String LOG_TAG = "RegisterTask";
 
-    interface RegisterTaskListener{
+    public interface RegisterTaskListener{
         void registerTaskCompleted(boolean result);
     }
 
     private final List<RegisterTaskListener> listeners = new ArrayList<>();
 
-    void registerListener(RegisterTaskListener listener) { listeners.add(listener); }
+    public void registerListener(RegisterTaskListener listener) { listeners.add(listener); }
 
     private void fireTaskCompleted(boolean result){
         for (RegisterTaskListener listener: listeners){
@@ -38,7 +40,7 @@ class RegisterTask extends AsyncTask<RegisterRequestBody, Void, String> {
 
         try{
 
-            return httpClient.postUrl(new URLUtils().getRegisterURL(), JSONUtils.ObjectToJson(body[0]),false);
+            return httpClient.postUrl(new HttpClient.URLUtils().getRegisterURL(), JSONUtils.ObjectToJson(body[0]),false);
 
         } catch (MalformedURLException ex){
 

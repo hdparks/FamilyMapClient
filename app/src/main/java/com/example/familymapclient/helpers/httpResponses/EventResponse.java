@@ -1,4 +1,4 @@
-package com.example.familymapclient.http;
+package com.example.familymapclient.helpers.httpResponses;
 
 import com.example.familymapclient.model.Event;
 

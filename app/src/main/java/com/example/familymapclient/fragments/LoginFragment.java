@@ -1,9 +1,7 @@
-package com.example.familymapclient;
+package com.example.familymapclient.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
-import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -16,14 +14,19 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.familymapclient.http.LoginRequestBody;
-import com.example.familymapclient.http.RegisterRequestBody;
+import com.example.familymapclient.helpers.tasks.RegisterTask;
+import com.example.familymapclient.model.DataCache;
+import com.example.familymapclient.helpers.tasks.DownloadFamliyDataTask;
+import com.example.familymapclient.helpers.tasks.LoginTask;
+import com.example.familymapclient.R;
+import com.example.familymapclient.activities.MainActivity;
+import com.example.familymapclient.helpers.httpRequests.LoginRequestBody;
+import com.example.familymapclient.helpers.httpRequests.RegisterRequestBody;
 
 
-public class LoginFragment extends Fragment implements LoginTask.LoginTaskListener, RegisterTask.RegisterTaskListener, DownloadFamliyDataTask.FamilyDataTaskListener {
+public class LoginFragment extends Fragment implements LoginTask.LoginTaskListener, RegisterTask.RegisterTaskListener, DownloadFamliyDataTask.DownloadFamilyDataTaskListener {
 
     private static final String LOG_TAG = "AddressFragment";
 

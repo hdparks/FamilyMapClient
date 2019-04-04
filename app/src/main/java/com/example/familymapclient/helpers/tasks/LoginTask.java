@@ -1,11 +1,13 @@
-package com.example.familymapclient;
+package com.example.familymapclient.helpers.tasks;
 
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.example.familymapclient.http.HttpClient;
-import com.example.familymapclient.http.LoginRequestBody;
-import com.example.familymapclient.http.LoginResponseBody;
+import com.example.familymapclient.helpers.HttpClient;
+import com.example.familymapclient.helpers.httpRequests.LoginRequestBody;
+import com.example.familymapclient.helpers.httpResponses.LoginResponseBody;
+import com.example.familymapclient.model.DataCache;
+import com.example.familymapclient.JSONUtils;
 
 import java.net.MalformedURLException;
 import java.util.ArrayList;
@@ -15,7 +17,7 @@ public class LoginTask extends AsyncTask<LoginRequestBody, Void, String> {
 
     private static final String LOG_TAG = "LoginTask";
 
-    interface LoginTaskListener {
+    public interface LoginTaskListener {
         void loginTaskCompleted(boolean result);
     }
 
@@ -25,7 +27,7 @@ public class LoginTask extends AsyncTask<LoginRequestBody, Void, String> {
      * Register a listener to this observable
      * @param listener
      */
-    void registerListener(LoginTaskListener listener){
+    public void registerListener(LoginTaskListener listener){
         listeners.add(listener);
     }
 
@@ -44,7 +46,7 @@ public class LoginTask extends AsyncTask<LoginRequestBody, Void, String> {
 
         try{
 
-            return httpClient.postUrl(new URLUtils().getLoginURL(), JSONUtils.ObjectToJson(req[0]),false);
+            return httpClient.postUrl(new HttpClient.URLUtils().getLoginURL(), JSONUtils.ObjectToJson(req[0]),false);
 
         } catch (MalformedURLException ex){
 
