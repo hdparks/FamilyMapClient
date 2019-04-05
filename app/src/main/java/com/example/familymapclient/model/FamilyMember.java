@@ -123,6 +123,7 @@ public class FamilyMember implements Parcelable {
         fatherID = in.readString();
         motherID = in.readString();
         spouseID = in.readString();
+        childrenIDList = new ArrayList<>();
         in.readStringList(childrenIDList);
     }
 }

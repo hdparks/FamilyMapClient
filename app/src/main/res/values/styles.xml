@@ -18,6 +18,7 @@
         <item name="android:textColor">@color/label</item>
         <item name="android:textSize">4pt</item>
         <item name="android:textAllCaps">true</item>
+        <item name="android:paddingEnd">10dp</item>
     </style>
 
 </resources>

@@ -7,7 +7,7 @@ import com.example.familymapclient.helpers.HttpClient;
 import com.example.familymapclient.helpers.httpResponses.LoginResponseBody;
 import com.example.familymapclient.helpers.httpRequests.RegisterRequestBody;
 import com.example.familymapclient.model.DataCache;
-import com.example.familymapclient.JSONUtils;
+import com.example.familymapclient.helpers.JSONUtils;
 
 import java.net.MalformedURLException;
 import java.util.ArrayList;

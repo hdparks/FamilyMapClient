@@ -49,19 +49,19 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
                 @Override
                 public void onClick(View v) {
-                    Log.wtf(LOG_TAG, "Intenting to PersonActivity");
+                    Log.d(LOG_TAG, "Intenting to PersonActivity");
 
                     DataCache dataCache = DataCache.getInstance();
 
                     //  Create an intent
                     Intent intent = new Intent(getActivity(), PersonActivity.class);
-                    intent.putExtra(PersonActivity.EXTRA_PERSON_ID, dataCache.userPerson);
+                    intent.putExtra(PersonActivity.EXTRA_PERSON_ID, dataCache.familyMemberMap.get(dataCache.userPerson.getFatherID()));
                     startActivity(intent);
                 }
             }
 
         );
-        Log.wtf(LOG_TAG,"SET ON CLICK LISTENER");
+        Log.d(LOG_TAG,"SET ON CLICK LISTENER");
 
         return view;
     }

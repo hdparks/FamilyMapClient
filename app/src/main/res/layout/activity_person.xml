@@ -6,89 +6,12 @@
     android:layout_height="match_parent"
     tools:context=".activities.PersonActivity">
 
-    <labeled_item>
-
-    </labeled_item>
-
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="16dp">
-
-            <TextView
-                style="@style/label"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="First Name" />
-
-            <TextView
-                android:id="@+id/personFirstName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
-
-        <View
-            style="@style/Divider"
-            android:background="@color/colorAccent"></View>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="16dp">
-
-            <TextView
-                style="@style/label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Last Name" />
-
-            <TextView
-                android:id="@+id/PersonLastName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
-
-        <View
-            style="@style/Divider"
-            android:background="@color/colorAccent"></View>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="16dp">
-
-            <TextView style="@style/label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Gender" />
-
-            <TextView
-                android:id="@+id/personGender"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
-
-        <View
-            style="@style/Divider"
-            android:background="@color/colorAccent"></View>
-
-        <ExpandableListView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/events_and_family">
-
-
-        </ExpandableListView>
-
-    </LinearLayout>
+        android:layout_height="match_parent"
+        android:id="@+id/personFragmentLayout"
+        android:padding="16dp">
+    </FrameLayout>
 
 
 </android.support.constraint.ConstraintLayout>

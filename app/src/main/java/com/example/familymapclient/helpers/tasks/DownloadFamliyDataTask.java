@@ -4,11 +4,10 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.example.familymapclient.helpers.FamilyDataParserSystem;
-import com.example.familymapclient.JSONUtils;
+import com.example.familymapclient.helpers.JSONUtils;
 import com.example.familymapclient.helpers.httpResponses.EventResponse;
 import com.example.familymapclient.helpers.HttpClient;
 import com.example.familymapclient.helpers.httpResponses.PersonResponse;
-import com.example.familymapclient.model.DataCache;
 
 import java.net.MalformedURLException;
 import java.util.ArrayList;
