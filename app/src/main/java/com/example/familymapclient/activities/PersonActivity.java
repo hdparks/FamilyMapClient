@@ -46,9 +46,10 @@ public class PersonActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_person);
 
-        Intent intent = getIntent();
+        DataCache dataCache = DataCache.getInstance();
 
-        this.person = intent.getParcelableExtra(EXTRA_PERSON_ID);
+        String personID = getIntent().getStringExtra(EXTRA_PERSON_ID);
+        this.person = dataCache.familyMemberMap.get(personID);
         this.eventsAndFamily = findViewById(R.id.events_and_family);
 
 
@@ -60,11 +61,8 @@ public class PersonActivity extends AppCompatActivity {
         //  If this is the first time creating the person fragment,
         //  We pass in a nice lil' bundle.
         if (personFragment == null){
-            Log.d(LOG_TAG,"CREATING THE BUNDLE FOR MY BUNDLE");
+
             personFragment = PersonFragment.newInstance(person);
-            if (personFragment.getArguments() == null){
-                Log.d(LOG_TAG, "NO HAS BUNDLE");
-            }
             fm.beginTransaction().add(R.id.personFragmentLayout, personFragment).commit();
         }
 

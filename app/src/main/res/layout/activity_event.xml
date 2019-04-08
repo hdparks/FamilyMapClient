@@ -6,40 +6,11 @@
     android:layout_height="match_parent"
     tools:context=".activities.EventActivity">
 
-    <!-- Map fragment -->
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/eventMapFragment"
-        app:layout_constraintTop_toTopOf="parent"></FrameLayout>
+        android:layout_height="match_parent"
+        android:id="@+id/mapFragmentLayout">
 
-
-    <TableLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent">
-        <TableRow>
-            <ImageView android:id="@+id/eventGenderIcon"/>
-
-            <LinearLayout android:orientation="vertical">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/eventPersonFullName"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/eventEventType"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/eventEventLocationAndYear"/>
-
-
-            </LinearLayout>
-        </TableRow>
-    </TableLayout>
+    </FrameLayout>
 
 </android.support.constraint.ConstraintLayout>

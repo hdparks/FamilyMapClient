@@ -1,15 +1,15 @@
 package com.example.familymapclient.activities;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.example.familymapclient.R;
+import com.example.familymapclient.model.DataCache;
 import com.example.familymapclient.model.Event;
 
 public class EventActivity extends AppCompatActivity {
-
-    public static final String EXTRA_EVENT = "event";
+    private static final String LOG_TAG = "EventActivity";
+    public static final String EXTRA_EVENT_ID = "event_ID";
 
     Event event;
 
@@ -18,8 +18,10 @@ public class EventActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event);
 
-        //  Read the event from the intent
-        event = getIntent().getExtras().getParcelable(EXTRA_EVENT);
+        DataCache dataCache = DataCache.getInstance();
 
+        //  Read the event from the intent
+        String eventID = getIntent().getStringExtra(EXTRA_EVENT_ID);
+        this.event = dataCache.eventMap.get(eventID);
     }
 }

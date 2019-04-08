@@ -1,7 +1,9 @@
 package com.example.familymapclient.fragments;
 
 import android.app.Activity;
+import android.app.ExpandableListActivity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -14,8 +16,11 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.familymapclient.R;
+import com.example.familymapclient.activities.EventActivity;
+import com.example.familymapclient.activities.PersonActivity;
 import com.example.familymapclient.model.DataCache;
 import com.example.familymapclient.model.Event;
 import com.example.familymapclient.model.FamilyMember;
@@ -60,7 +65,7 @@ public class PersonFragment extends Fragment {
         gender.setText(person.getGender().equals("m") ? "Male" : "Female");
 
         //  Get events, family members for person
-        DataCache dataCache = DataCache.getInstance();
+        final DataCache dataCache = DataCache.getInstance();
 
         //  Get events related to the person, then sort birth < else < death
         List<Event> events = dataCache.personEventListMap.get(person.getPersonID());
@@ -72,29 +77,6 @@ public class PersonFragment extends Fragment {
         //  Compile these into one expandable list view
         this.eventsAndFamily = view.findViewById(R.id.events_and_family);
         eventsAndFamily.setAdapter(new EventsAndFamilyAdapter(events, relations, getActivity()));
-
-        //  Add onclick functionality to each person
-        eventsAndFamily.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-            @Override
-            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-
-                //  Create a new PersonFragment with the clicked person or event
-                switch (groupPosition){
-                    case EventsAndFamilyAdapter.EVENT_GROUP_POSITION:
-                        // TODO: 4/5/2019 Link to EventActivity 
-                        break;
-
-                    case EventsAndFamilyAdapter.PERSON_GROUP_POSITION:
-                        // TODO: 4/5/2019 Link to new PersonFragment 
-                        break;
-
-                    default:
-                        throw new IllegalArgumentException("Unrecognized group position: " + groupPosition);
-                }
-
-                return true;
-            }
-        });
 
         return view;
     }
@@ -168,8 +150,8 @@ public class PersonFragment extends Fragment {
         private static final int EVENT_GROUP_POSITION = 0;
         private static final int PERSON_GROUP_POSITION = 1;
 
-        private final List<Event> eventList;
-        private final List<Relation> familyMemberList;
+        List<Event> eventList;
+        List<Relation> familyMemberList;
 
         public Activity getActivity() {
             return activity;
@@ -287,7 +269,7 @@ public class PersonFragment extends Fragment {
             ImageView genderIconView = itemView.findViewById(R.id.icon);
 
             //  Fill the right info based on the position
-            Relation familyMember = familyMemberList.get(childPosition);
+            final Relation familyMember = familyMemberList.get(childPosition);
 
             // Create Drawable gender icon
             Drawable genderIcon = new IconDrawable(getActivity(),
@@ -298,6 +280,17 @@ public class PersonFragment extends Fragment {
             top_text.setText( familyMember.person.getFirstName() + " " + familyMember.person.getLastName() );
             bot_text.setText( familyMember.relation);
             genderIconView.setImageDrawable(genderIcon);
+
+            //  Set click to open new PersonActivity
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent personIntent = new Intent(getActivity(), PersonActivity.class);
+                    personIntent.putExtra(PersonActivity.EXTRA_PERSON_ID, familyMember.person.getPersonID());
+                    startActivity(personIntent);
+                }
+            });
+
         }
 
         private void initializeLifeEventView(View itemView, final int childPosition) {
@@ -308,7 +301,7 @@ public class PersonFragment extends Fragment {
             ImageView iconView = itemView.findViewById(R.id.icon);
 
             //  Fill in based on Event
-            Event event = eventList.get(childPosition);
+            final Event event = eventList.get(childPosition);
 
             // Apply attributes
             top_text.setText(event.getEventType() + ": " +
@@ -319,6 +312,18 @@ public class PersonFragment extends Fragment {
             iconView.setImageDrawable(
                     new IconDrawable(getActivity(), FontAwesomeIcons.fa_map_marker)
                             .colorRes(R.color.label).sizeDp(40));
+
+            //  Set click to create event
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //  Create a new EventActivity with the given EventID
+                    Intent eventIntent = new Intent(getActivity(), EventActivity.class);
+                    eventIntent.putExtra(EventActivity.EXTRA_EVENT_ID, event.getEventID());
+                    startActivity(eventIntent);
+                }
+            });
+
         }
 
         @Override

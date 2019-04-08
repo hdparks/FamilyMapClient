@@ -13,6 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.familymapclient.R;
 import com.example.familymapclient.activities.MainActivity;
@@ -25,25 +27,30 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.w3c.dom.Text;
 
-/**
- * A simple {@link Fragment} subclass.
- */
+
 public class MapFragment extends Fragment implements OnMapReadyCallback {
+
     private static final String LOG_TAG = "MapFragment";
     private GoogleMap map;
     private Button personButton;
+    private ImageView genderIcon;
+    private TextView personFullName;
+    private TextView eventTypeLocationYear;
+
 
     @Override
     public View onCreateView(@NonNull LayoutInflater layoutInflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(layoutInflater,container,savedInstanceState);
         View view = layoutInflater.inflate(R.layout.fragment_map, container, false);
 
+        //  Turn on the MAP
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        personButton = view.findViewById(R.id.quickButton);
 
+        personButton = view.findViewById(R.id.quickButton);
         personButton.setOnClickListener(
             new View.OnClickListener() {
 
@@ -55,13 +62,16 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
                     //  Create an intent
                     Intent intent = new Intent(getActivity(), PersonActivity.class);
-                    intent.putExtra(PersonActivity.EXTRA_PERSON_ID, dataCache.familyMemberMap.get(dataCache.userPerson.getFatherID()));
+                    intent.putExtra(PersonActivity.EXTRA_PERSON_ID, dataCache.userPerson.getFatherID());
                     startActivity(intent);
                 }
             }
 
         );
-        Log.d(LOG_TAG,"SET ON CLICK LISTENER");
+
+        this.genderIcon = view.findViewById(R.id.genderIcon);
+        this.personFullName = view.findViewById(R.id.personFullName);
+        this.eventTypeLocationYear = view.findViewById(R.id.eventTypeLocationYear);
 
         return view;
     }
@@ -74,5 +84,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         LatLng sydney = new LatLng(-34,151);
         map.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         map.animateCamera(CameraUpdateFactory.newLatLng(sydney));
+    }
+
+    public void populateMap(){
+        DataCache dataCache = DataCache.getInstance();
+
+        //  Pull all events within filters
+
     }
 }
