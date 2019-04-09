@@ -90,6 +90,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         DataCache dataCache = DataCache.getInstance();
 
         //  Pull all events within filters
-
+        
     }
 }

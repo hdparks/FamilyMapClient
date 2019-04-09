@@ -68,7 +68,13 @@ public class PersonFragment extends Fragment {
         final DataCache dataCache = DataCache.getInstance();
 
         //  Get events related to the person, then sort birth < else < death
-        List<Event> events = dataCache.personEventListMap.get(person.getPersonID());
+        List<String> eventIDs = dataCache.personEventListMap.get(person.getPersonID());
+        List<Event> events = new ArrayList<>();
+        
+        for (String eventID : eventIDs){
+            events.add(dataCache.eventMap.get(eventID));
+        }
+
         Collections.sort(events, new BirthDeathSort());
 
         //  Get a list of all their relations
