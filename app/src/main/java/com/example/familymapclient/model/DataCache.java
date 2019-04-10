@@ -1,5 +1,7 @@
 package com.example.familymapclient.model;
 
+import com.example.familymapclient.helpers.FilteredMap;
+
 import java.util.List;
 import java.util.Map;
 

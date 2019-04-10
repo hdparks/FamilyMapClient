@@ -5,4 +5,5 @@
     <color name="colorAccent">#D81B60</color>
     <color name="label">#999</color>
     <color name="male_icon">#00F</color>
+    <color name="colorWhite">#FFF</color>
 </resources>

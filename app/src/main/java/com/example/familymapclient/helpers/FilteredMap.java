@@ -1,4 +1,7 @@
-package com.example.familymapclient.model;
+package com.example.familymapclient.helpers;
+
+import com.example.familymapclient.model.Event;
+import com.example.familymapclient.model.Filter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,10 +38,17 @@ public class FilteredMap {
         this.typeToFilterMap = new HashMap<>();
 
         filterList = new ArrayList<>();
-        filterList.add(new Filter("Female Events","Fliter events based on gender"));
-        filterList.add(new Filter("Male Events", "Filter events based on gender"));
-        filterList.add(new Filter("Mother's Side", "Filter by Mother's side of family"));
-        filterList.add(new Filter("Father's Side","Filter by Father's side of family"));
+
+
+        femaleFilter = new Filter("Female Events","Filter events based on gender");
+        maleFilter = new Filter("Male Events", "Filter events based on gender");
+        maternalFilter = new Filter("Mother's Side", "Filter by Mother's side of family");
+        paternalFilter =  new Filter("Father's Side","Filter by Father's side of family");
+
+        filterList.add(femaleFilter);
+        filterList.add(maleFilter);
+        filterList.add(maternalFilter);
+        filterList.add(paternalFilter);
     }
 
     public void putEvent(Event event, boolean isMaternal, boolean isFemale) {
@@ -46,7 +56,16 @@ public class FilteredMap {
         this.sideMap.put(event.getEventID(), isMaternal ? Side.Mother : Side.Father);
         this.typeMap.put(event.getEventID(), event.getEventType().toLowerCase());
 
-        if (!typeToFilterMap.containsKey(event.getEventType())){
+        //  Update filterList if new filters are out there
+        updateFilterMap(event);
+
+
+        this.eventMap.put(event.getEventID(), event);
+
+    }
+
+    public void updateFilterMap(Event event){
+        if (!typeToFilterMap.containsKey(event.getEventType().toLowerCase())){
             String type = event.getEventType().toLowerCase();
             type = type.substring(0,1).toUpperCase() + type.substring(1);
 
@@ -55,16 +74,14 @@ public class FilteredMap {
             typeToFilterMap.put(type.toLowerCase(), typeFilter);
             filterList.add(typeFilter);
         }
-
-
-        this.eventMap.put(event.getEventID(), event);
-
     }
 
     public void putUserEvent(Event event, boolean isFemale){
         this.genderMap.put(event.getEventID(), isFemale ? Gender.f : Gender.m);
         this.sideMap.put(event.getEventID(),Side.User);
         this.typeMap.put(event.getEventID(),event.getEventType());
+
+        updateFilterMap(event);
 
         this.eventMap.put(event.getEventID(), event);
     }

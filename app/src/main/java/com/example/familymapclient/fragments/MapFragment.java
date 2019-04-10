@@ -6,10 +6,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.provider.ContactsContract;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -17,15 +21,21 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.familymapclient.R;
+import com.example.familymapclient.activities.FilterActivity;
 import com.example.familymapclient.activities.MainActivity;
 import com.example.familymapclient.activities.PersonActivity;
+import com.example.familymapclient.activities.SearchActivity;
+import com.example.familymapclient.activities.SettingsActivity;
 import com.example.familymapclient.model.DataCache;
+import com.example.familymapclient.model.Event;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.joanzapata.iconify.IconDrawable;
+import com.joanzapata.iconify.fonts.FontAwesomeIcons;
 
 import org.w3c.dom.Text;
 
@@ -38,6 +48,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private ImageView genderIcon;
     private TextView personFullName;
     private TextView eventTypeLocationYear;
+    private Event selected;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState){
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
 
 
     @Override
@@ -74,6 +91,56 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         this.eventTypeLocationYear = view.findViewById(R.id.eventTypeLocationYear);
 
         return view;
+    }
+
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.full_menu, menu);
+
+        MenuItem filterItem = menu.findItem(R.id.filter_menu_item);
+        MenuItem searchItem = menu.findItem(R.id.search_menu_item);
+        MenuItem settingsItem = menu.findItem(R.id.settings_menu_item);
+
+        filterItem.setIcon(new IconDrawable(getActivity(), FontAwesomeIcons.fa_filter)
+                .colorRes(R.color.colorWhite)
+                .actionBarSize());
+
+        searchItem.setIcon(new IconDrawable(getActivity(), FontAwesomeIcons.fa_search)
+                .colorRes(R.color.colorWhite)
+                .actionBarSize());
+
+        settingsItem.setIcon(new IconDrawable(getActivity(), FontAwesomeIcons.fa_gear)
+                .colorRes(R.color.colorWhite)
+                .actionBarSize());
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+
+        switch( item.getItemId() ) {
+
+            case R.id.filter_menu_item:
+                Log.d(LOG_TAG, "Intenting to FilterActivity");
+                Intent filterIntent = new Intent(getActivity(), FilterActivity.class);
+                startActivity(filterIntent);
+                return true;
+
+            case R.id.settings_menu_item:
+                Intent settingsIntent = new Intent(getActivity(), SettingsActivity.class);
+                startActivity(settingsIntent);
+                return true;
+
+            case R.id.search_menu_item:
+                Intent searchIntent = new Intent(getActivity(), SearchActivity.class);
+                startActivity(searchIntent);
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
