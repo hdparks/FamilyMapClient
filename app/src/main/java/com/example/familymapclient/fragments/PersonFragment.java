@@ -70,7 +70,10 @@ public class PersonFragment extends Fragment {
         List<Event> events = new ArrayList<>();
         
         for (String eventID : eventIDs){
-            events.add(dataCache.eventMap.get(eventID));
+            Event e = dataCache.eventMap.get(eventID);
+            if (e != null){
+                events.add(e);
+            }
         }
 
         Collections.sort(events, new BirthDeathSort());
@@ -276,9 +279,10 @@ public class PersonFragment extends Fragment {
             final Relation familyMember = familyMemberList.get(childPosition);
 
             // Create Drawable gender icon
-            Drawable genderIcon = new IconDrawable(getActivity(),
-                    familyMember.person.getGender().equals("f") ? FontAwesomeIcons.fa_female : FontAwesomeIcons.fa_male)
-                    .colorRes(R.color.colorMale).sizeDp(40);
+            boolean isFemale = familyMember.person.getGender().equals("f");
+            FontAwesomeIcons iconType = isFemale ? FontAwesomeIcons.fa_female : FontAwesomeIcons.fa_male;
+            int color = isFemale ? R.color.colorFemale : R.color.colorMale;
+            Drawable genderIcon = new IconDrawable(getActivity(),iconType).colorRes(color).sizeDp(40);
 
             //  Apply attributes
             top_text.setText( familyMember.person.getFirstName() + " " + familyMember.person.getLastName() );

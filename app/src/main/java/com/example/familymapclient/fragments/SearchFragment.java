@@ -21,9 +21,8 @@ import android.widget.TextView;
 import com.example.familymapclient.R;
 import com.example.familymapclient.activities.EventActivity;
 import com.example.familymapclient.activities.PersonActivity;
-import com.example.familymapclient.helpers.Search;
-import com.example.familymapclient.helpers.SearchResult;
-import com.example.familymapclient.model.DataCache;
+import com.example.familymapclient.helpers.search.Search;
+import com.example.familymapclient.helpers.search.SearchResult;
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.fonts.FontAwesomeIcons;
 
@@ -96,6 +95,7 @@ public class SearchFragment extends Fragment {
 
         public ResultHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.icon_2_field, parent,false));
+            itemView.setOnClickListener(this);
 
             this.topText = itemView.findViewById(R.id.top_text);
             this.botText = itemView.findViewById(R.id.bot_text);

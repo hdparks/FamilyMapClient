@@ -49,6 +49,8 @@ public class PersonActivity extends AppCompatActivity {
         DataCache dataCache = DataCache.getInstance();
 
         String personID = getIntent().getStringExtra(EXTRA_PERSON_ID);
+
+        Log.d(LOG_TAG,"Person Activity for PersonID "+ personID);
         this.person = dataCache.familyMemberMap.get(personID);
         this.eventsAndFamily = findViewById(R.id.events_and_family);
 

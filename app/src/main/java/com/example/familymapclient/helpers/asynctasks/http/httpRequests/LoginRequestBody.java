@@ -1,4 +1,4 @@
-package com.example.familymapclient.helpers.httpRequests;
+package com.example.familymapclient.helpers.asynctasks.http.httpRequests;
 
 public class LoginRequestBody {
     public String userName;

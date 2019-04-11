@@ -1,4 +1,4 @@
-package com.example.familymapclient.helpers;
+package com.example.familymapclient.helpers.search;
 
 import android.util.Log;
 
@@ -37,7 +37,7 @@ public class Search {
 
     private void searchFilteredEvents(String query) {
         //  Get all filtered event objects
-        final List<Event> events = DataCache.getInstance().eventMap.getFilteredEvents();
+        List<Event> events = DataCache.getInstance().eventMap.getFilteredEvents();
         Log.d(LOG_TAG, "We found "+ events.size() +" events");
         for (Event e : events){
             if (e.getEventType().toLowerCase().contains(query) ||

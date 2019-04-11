@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import com.example.familymapclient.R;
 import com.example.familymapclient.model.DataCache;
-import com.example.familymapclient.model.Filter;
+import com.example.familymapclient.helpers.filter.Filter;
 
 import java.util.List;
 

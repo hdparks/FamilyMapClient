@@ -16,14 +16,14 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import com.example.familymapclient.helpers.tasks.RegisterTask;
+import com.example.familymapclient.helpers.asynctasks.RegisterTask;
 import com.example.familymapclient.model.DataCache;
-import com.example.familymapclient.helpers.tasks.DownloadFamliyDataTask;
-import com.example.familymapclient.helpers.tasks.LoginTask;
+import com.example.familymapclient.helpers.asynctasks.DownloadFamliyDataTask;
+import com.example.familymapclient.helpers.asynctasks.LoginTask;
 import com.example.familymapclient.R;
 import com.example.familymapclient.activities.MainActivity;
-import com.example.familymapclient.helpers.httpRequests.LoginRequestBody;
-import com.example.familymapclient.helpers.httpRequests.RegisterRequestBody;
+import com.example.familymapclient.helpers.asynctasks.http.httpRequests.LoginRequestBody;
+import com.example.familymapclient.helpers.asynctasks.http.httpRequests.RegisterRequestBody;
 
 
 public class LoginFragment extends Fragment implements LoginTask.LoginTaskListener, RegisterTask.RegisterTaskListener, DownloadFamliyDataTask.DownloadFamilyDataTaskListener {

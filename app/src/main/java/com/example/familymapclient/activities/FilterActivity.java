@@ -8,8 +8,6 @@ import android.util.Log;
 
 import com.example.familymapclient.R;
 import com.example.familymapclient.fragments.FilterFragment;
-import com.example.familymapclient.fragments.PersonFragment;
-import com.example.familymapclient.helpers.tasks.LoginTask;
 
 public class FilterActivity extends AppCompatActivity {
     private static final String LOG_TAG = "FilterActivity";

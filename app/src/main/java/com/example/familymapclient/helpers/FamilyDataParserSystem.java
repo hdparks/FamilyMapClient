@@ -1,5 +1,6 @@
 package com.example.familymapclient.helpers;
 
+import com.example.familymapclient.helpers.filter.FilteredMap;
 import com.example.familymapclient.model.DataCache;
 import com.example.familymapclient.model.Event;
 import com.example.familymapclient.model.FamilyMember;

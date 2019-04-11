@@ -1,13 +1,12 @@
-package com.example.familymapclient.helpers.tasks;
+package com.example.familymapclient.helpers.asynctasks;
 
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.example.familymapclient.helpers.HttpClient;
-import com.example.familymapclient.helpers.httpRequests.LoginRequestBody;
-import com.example.familymapclient.helpers.httpResponses.LoginResponseBody;
+import com.example.familymapclient.helpers.asynctasks.http.HttpClient;
+import com.example.familymapclient.helpers.asynctasks.http.httpRequests.LoginRequestBody;
+import com.example.familymapclient.helpers.asynctasks.http.httpResponses.LoginResponseBody;
 import com.example.familymapclient.model.DataCache;
-import com.example.familymapclient.helpers.JSONUtils;
 
 import java.net.MalformedURLException;
 import java.util.ArrayList;

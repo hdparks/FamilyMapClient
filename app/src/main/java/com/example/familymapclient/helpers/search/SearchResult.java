@@ -1,4 +1,4 @@
-package com.example.familymapclient.helpers;
+package com.example.familymapclient.helpers.search;
 
 
 import android.support.annotation.NonNull;

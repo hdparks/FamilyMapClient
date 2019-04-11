@@ -1,7 +1,6 @@
-package com.example.familymapclient.helpers;
+package com.example.familymapclient.helpers.filter;
 
 import com.example.familymapclient.model.Event;
-import com.example.familymapclient.model.Filter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,23 +9,23 @@ import java.util.Map;
 
 public class FilteredMap {
 
-    Map<String, Event> eventMap;
+    private Map<String, Event> eventMap;
 
 
 
-    enum Gender {f, m;}
+    enum Gender {f, m}
 
     enum Side {Mother, Father, User;}
-    Map<String, Gender> genderMap;
+    private Map<String, Gender> genderMap;
 
-    Map<String, Side> sideMap;
-    Map<String, String> typeMap;
-    Filter maleFilter;
+    private Map<String, Side> sideMap;
+    private Map<String, String> typeMap;
+    private Filter maleFilter;
 
-    Filter femaleFilter;
-    Filter maternalFilter;
-    Filter paternalFilter;
-    Map<String, Filter> typeToFilterMap;
+    private Filter femaleFilter;
+    private Filter maternalFilter;
+    private Filter paternalFilter;
+    private Map<String, Filter> typeToFilterMap;
 
     public List<Filter> filterList;
 
@@ -66,7 +65,7 @@ public class FilteredMap {
 
     }
 
-    public void updateFilterMap(Event event){
+    private void updateFilterMap(Event event){
         if (!typeToFilterMap.containsKey(event.getEventType().toLowerCase())){
             String type = event.getEventType().toLowerCase();
             type = type.substring(0,1).toUpperCase() + type.substring(1);

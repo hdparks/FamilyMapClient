@@ -1,4 +1,4 @@
-package com.example.familymapclient.helpers;
+package com.example.familymapclient.helpers.asynctasks;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
