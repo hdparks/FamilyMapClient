@@ -12,18 +12,20 @@ public class FilteredMap {
 
     Map<String, Event> eventMap;
 
-    enum Gender {f, m}
-    enum Side {Mother, Father, User}
 
+
+    enum Gender {f, m;}
+
+    enum Side {Mother, Father, User;}
     Map<String, Gender> genderMap;
+
     Map<String, Side> sideMap;
     Map<String, String> typeMap;
-
     Filter maleFilter;
+
     Filter femaleFilter;
     Filter maternalFilter;
     Filter paternalFilter;
-
     Map<String, Filter> typeToFilterMap;
 
     public List<Filter> filterList;
@@ -91,7 +93,8 @@ public class FilteredMap {
 
         //  Check all filters
         //  Check gender
-        switch (genderMap.get(eventID)) {
+        Gender gender = genderMap.get(eventID);
+        switch (gender) {
             case f:
                 if (!femaleFilter.getActive()) return null;
                 break;
@@ -105,8 +108,8 @@ public class FilteredMap {
         }
 
         //  Check side
-
-        switch (sideMap.get(eventID)) {
+        Side side = sideMap.get(eventID);
+        switch (side) {
             case Father:
                 if (!paternalFilter.getActive()) return null;
                 break;
@@ -122,14 +125,31 @@ public class FilteredMap {
                 return null;
         }
 
-        //  Check type
-        if (!typeToFilterMap.get(typeMap.get(eventID)).getActive()) return null;
+        //  Get filter, ensure valid filter typ
+        Filter filter = typeToFilterMap.get(typeMap.get(eventID));
+        if (filter == null) return null;
+
+        //  Filter
+        boolean filtered = filter.getActive();
+        if (filtered) return null;
 
 
         //  Retrieve
         return eventMap.get(eventID);
 
 
+    }
+
+    public List<Event> getFilteredEvents() {
+
+        List<Event> events = new ArrayList<>();
+
+        for (String id: eventMap.keySet()){
+            Event e = get(id);
+            if (e != null) events.add(e);
+        }
+
+        return events;
     }
 }
 

@@ -1,7 +1,6 @@
 package com.example.familymapclient.fragments;
 
 import android.app.Activity;
-import android.app.ExpandableListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -16,7 +15,6 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.familymapclient.R;
 import com.example.familymapclient.activities.EventActivity;
@@ -280,7 +278,7 @@ public class PersonFragment extends Fragment {
             // Create Drawable gender icon
             Drawable genderIcon = new IconDrawable(getActivity(),
                     familyMember.person.getGender().equals("f") ? FontAwesomeIcons.fa_female : FontAwesomeIcons.fa_male)
-                    .colorRes(R.color.male_icon).sizeDp(40);
+                    .colorRes(R.color.colorMale).sizeDp(40);
 
             //  Apply attributes
             top_text.setText( familyMember.person.getFirstName() + " " + familyMember.person.getLastName() );

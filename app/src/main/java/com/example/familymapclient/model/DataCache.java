@@ -23,8 +23,8 @@ public class DataCache {
 
     //  Family Data
     public Map<String, FamilyMember> familyMemberMap;
-    public FilteredMap eventMap;
     public Map<String, List<String>> personEventListMap;
+    public FilteredMap eventMap;
 
 
     private static DataCache instance;

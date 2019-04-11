@@ -124,7 +124,7 @@ public class FilterFragment extends Fragment {
             this.filterList = filterList;
         }
 
-
+        @NonNull
         @Override
         public FilterHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
             Log.d(LOG_TAG, "Creating FilterHolder");
