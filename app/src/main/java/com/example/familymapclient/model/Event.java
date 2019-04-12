@@ -5,68 +5,49 @@ import android.os.Parcelable;
 
 public class Event implements Parcelable {
 
+    // ONLY USED IN TESTING. No Event should ever be constructed outside of FamilyDataParser/JSON utility functions
+    public Event(String eventID, String personID, String latitude, String longitude, String country, String city, String eventType, int year) {
+        this.eventID = eventID;
+        this.personID = personID;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.country = country;
+        this.city = city;
+        this.eventType = eventType;
+        this.year = year;
+    }
+
     public String getEventID() {
         return eventID;
     }
 
-    public void setEventID(String eventID) {
-        this.eventID = eventID;
-    }
 
     public String getPersonID() {
         return personID;
-    }
-
-    public void setPersonID(String personID) {
-        this.personID = personID;
     }
 
     public String getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(String latitude) {
-        this.latitude = latitude;
-    }
-
     public String getLongitude() {
         return longitude;
-    }
-
-    public void setLongitude(String longitude) {
-        this.longitude = longitude;
     }
 
     public String getCountry() {
         return country;
     }
 
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
     public String getCity() {
         return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
     }
 
     public String getEventType() {
         return eventType;
     }
 
-    public void setEventType(String eventType) {
-        this.eventType = eventType;
-    }
-
     public int getYear() {
         return year;
-    }
-
-    public void setYear(int year) {
-        this.year = year;
     }
 
     String eventID;
@@ -122,5 +103,35 @@ public class Event implements Parcelable {
         city = in.readString();
         eventType = in.readString();
         year = in.readInt();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Event event = (Event) o;
+
+        if (year != event.year) return false;
+        if (!eventID.equals(event.eventID)) return false;
+        if (!personID.equals(event.personID)) return false;
+        if (!latitude.equals(event.latitude)) return false;
+        if (!longitude.equals(event.longitude)) return false;
+        if (!country.equals(event.country)) return false;
+        if (!city.equals(event.city)) return false;
+        return eventType.equals(event.eventType);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = eventID.hashCode();
+        result = 31 * result + personID.hashCode();
+        result = 31 * result + latitude.hashCode();
+        result = 31 * result + longitude.hashCode();
+        result = 31 * result + country.hashCode();
+        result = 31 * result + city.hashCode();
+        result = 31 * result + eventType.hashCode();
+        result = 31 * result + year;
+        return result;
     }
 }

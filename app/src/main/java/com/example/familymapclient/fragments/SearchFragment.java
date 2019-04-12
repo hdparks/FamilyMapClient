@@ -46,6 +46,7 @@ public class SearchFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.fragment_search, container, false);
 
+
         queryView = view.findViewById(R.id.query_field);
         resultView = view.findViewById(R.id.results_field);
         resultView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -125,13 +126,14 @@ public class SearchFragment extends Fragment {
                     break;
 
                 case event:
-                    iconType = FontAwesomeIcons.fa_navicon;
+                    iconType = FontAwesomeIcons.fa_map_marker;
                     color = R.color.colorWhite;
+
                     break;
 
                 default:
                     iconType = FontAwesomeIcons.fa_battery_empty;
-                    color = R.color.colorWhite;
+                    color = R.color.label;
 
             }
 

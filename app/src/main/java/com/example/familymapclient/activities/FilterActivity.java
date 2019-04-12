@@ -1,10 +1,12 @@
 package com.example.familymapclient.activities;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 
 import com.example.familymapclient.R;
 import com.example.familymapclient.fragments.FilterFragment;
@@ -28,5 +30,15 @@ public class FilterActivity extends AppCompatActivity {
             filterFragment = FilterFragment.newInstance();
             fm.beginTransaction().add(R.id.filterFragmentLayout, filterFragment).commit();
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        if (item.getItemId() == R.id.home){
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+        }
+        return true;
     }
 }

@@ -1,5 +1,9 @@
 package com.example.familymapclient.helpers.filter;
 
+import android.util.Log;
+
+import com.example.familymapclient.helpers.Logger;
+import com.example.familymapclient.helpers.UnitTestLogger;
 import com.example.familymapclient.model.Event;
 
 import java.util.ArrayList;
@@ -8,23 +12,24 @@ import java.util.List;
 import java.util.Map;
 
 public class FilteredMap {
+    private static final UnitTestLogger ulog = new UnitTestLogger("FilteredMap");
+    private static final Logger log = new Logger("FilteredMap");
+
 
     private Map<String, Event> eventMap;
 
-
-
     enum Gender {f, m}
-
     enum Side {Mother, Father, User;}
-    private Map<String, Gender> genderMap;
 
+    private Map<String, Gender> genderMap;
     private Map<String, Side> sideMap;
     private Map<String, String> typeMap;
-    private Filter maleFilter;
 
+    private Filter maleFilter;
     private Filter femaleFilter;
     private Filter maternalFilter;
     private Filter paternalFilter;
+
     private Map<String, Filter> typeToFilterMap;
 
     public List<Filter> filterList;
@@ -128,13 +133,14 @@ public class FilteredMap {
         Filter filter = typeToFilterMap.get(typeMap.get(eventID));
         if (filter == null) return null;
 
+
         //  Filter
-        boolean filtered = filter.getActive();
-        if (filtered) return null;
+        boolean allowed = filter.getActive();
+        if (!allowed) return null;
 
 
         //  Retrieve
-        return eventMap.get(eventID);
+        return this.eventMap.get(eventID);
 
 
     }
