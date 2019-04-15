@@ -1,5 +1,6 @@
 package com.example.familymapclient.model;
 
+import com.example.familymapclient.R;
 import com.example.familymapclient.helpers.filter.FilteredMap;
 
 import java.util.List;
@@ -26,6 +27,9 @@ public class DataCache {
     public Map<String, List<String>> personEventListMap;
     public FilteredMap eventMap;
 
+    //  Internal App Settings
+    public Settings settings;
+
 
     private static DataCache instance;
 
@@ -38,5 +42,13 @@ public class DataCache {
     }
 
     private DataCache(){}
+
+    public Settings getSettings(){
+        if (settings == null){
+            return new Settings(R.color.colorOrange, R.color.colorGreen,R.color.colorBlue);
+        }
+        return settings;
+    }
+
 
 }

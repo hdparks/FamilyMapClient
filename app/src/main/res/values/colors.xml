@@ -7,4 +7,10 @@
     <color name="colorMale">#2929D3</color>
     <color name="colorWhite">#FFF</color>
     <color name="colorFemale">#9C27B0</color>
+    <color name="colorRed">#BB1818</color>
+    <color name="colorOrange">#FF5722</color>
+    <color name="colorYellow">#FFEB3B</color>
+    <color name="colorGreen">#4CAF50</color>
+    <color name="colorBlue">#0066D4</color>
+    <color name="colorPurple">#7807FA</color>
 </resources>

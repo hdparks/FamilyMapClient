@@ -3,48 +3,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.MapFragment">
 
-    <android.support.constraint.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-
-
-        <Button
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Person"
-            android:id="@+id/quickButton"/>
-
         <fragment
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            class="com.google.android.gms.maps.SupportMapFragment"
             android:layout_margin="15dp"
             android:id="@+id/map"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@id/eventData"
-            class="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_above="@+id/eventData"
             />
 
         <LinearLayout
-            android:padding="10dp"
-            android:layout_marginRight="10dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-
+            android:padding="30dp"
+            android:layout_marginEnd="10dp"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:id="@+id/eventData">
+            android:id="@+id/eventData"
+            android:layout_alignParentBottom="true">
 
             <ImageView
                 android:id="@+id/genderIcon"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/gendericon"/>
 
 
             <LinearLayout
@@ -56,21 +39,16 @@
                     android:id="@+id/personFullName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    tools:text="Full Name"
-                    android:text="SOMEONE's FIRST AND LAST NAME"/>
+                    tools:text="SOMEONE's FIRST AND LAST NAME"/>
 
                 <TextView
                     android:id="@+id/eventTypeLocationYear"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    tools:text="Event Type, location, Year"
-                    android:text="EVENT TYPE, LOCATION, (YEAR)"/>
+                    tools:text="EVENT TYPE, LOCATION, (YEAR)"/>
 
             </LinearLayout>
 
         </LinearLayout>
-
-    </android.support.constraint.ConstraintLayout>
-
 
 </RelativeLayout>

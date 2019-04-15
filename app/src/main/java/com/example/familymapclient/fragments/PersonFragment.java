@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.example.familymapclient.R;
 import com.example.familymapclient.activities.EventActivity;
 import com.example.familymapclient.activities.PersonActivity;
+import com.example.familymapclient.helpers.Logger;
 import com.example.familymapclient.model.DataCache;
 import com.example.familymapclient.model.Event;
 import com.example.familymapclient.model.FamilyMember;
@@ -29,10 +30,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 
 public class PersonFragment extends Fragment {
-    private static final String LOG_TAG = "PersonFragment";
+    private static Logger log = new Logger("PersonFragment");
     public static final String ARG_PERSON = "person";
 
     private FamilyMember person;
@@ -48,29 +50,34 @@ public class PersonFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        Log.d(LOG_TAG,"Creating PersonFragment view");
+        log.d("Creating PersonFragment view");
         View view = inflater.inflate(R.layout.fragment_person, container, false);
 
 
         //  Populate person data fields
-        TextView firstName = (TextView) view.findViewById(R.id.personFirstName);
+        TextView firstName = view.findViewById(R.id.personFirstName);
         firstName.setText(person.getFirstName());
 
-        TextView lastName = (TextView) view.findViewById(R.id.personLastName);
+        TextView lastName = view.findViewById(R.id.personLastName);
         lastName.setText(person.getLastName());
 
-        TextView gender = (TextView) view.findViewById(R.id.personGender);
+        TextView gender = view.findViewById(R.id.personGender);
         gender.setText(person.getGender().equals("m") ? "Male" : "Female");
 
         //  Get events, family members for person
-        final DataCache dataCache = DataCache.getInstance();
 
         //  Get events related to the person, then sort birth < else < death
-        List<String> eventIDs = dataCache.personEventListMap.get(person.getPersonID());
+        log.d("Getting all events associated with "+ person.getPersonID());
+        List<String> eventIDs = DataCache.getInstance().personEventListMap.get(person.getPersonID());
         List<Event> events = new ArrayList<>();
-        
+
+        if (eventIDs == null ) {
+            log.d("NO EVENTS FOUND");
+            eventIDs = new ArrayList<>();
+        }
+
         for (String eventID : eventIDs){
-            Event e = dataCache.eventMap.get(eventID);
+            Event e = DataCache.getInstance().eventMap.get(eventID);
             if (e != null){
                 events.add(e);
             }
@@ -79,7 +86,7 @@ public class PersonFragment extends Fragment {
         Collections.sort(events, new BirthDeathSort());
 
         //  Get a list of all their relations
-        List<Relation> relations = generateRelations(dataCache);
+        List<Relation> relations = generateRelations();
 
         //  Compile these into one expandable list view
         this.eventsAndFamily = view.findViewById(R.id.events_and_family);
@@ -97,45 +104,24 @@ public class PersonFragment extends Fragment {
         return personFragment;
     }
 
-    private class BirthDeathSort implements Comparator<Event> {
 
-        @Override
-        public int compare(Event o1, Event o2) {
 
-            String o1Type = o1.getEventType().toLowerCase();
-            String o2Type = o2.getEventType().toLowerCase();
-
-            //  Events are sorted primarily by birth < else < death
-            if (o1Type.equals("birth")) return -1;
-            if (o1Type.equals("death")) return 1;
-            if (o2Type.equals("birth")) return 1;
-            if (o2Type.equals("death")) return -1;
-
-            //  Events are then sorted by year
-            if (o1.getYear() < o2.getYear()) return -1;
-            if (o1.getYear() > o2.getYear()) return 1;
-
-            //  Events are finally sorted alphabetically by lower-cased type
-            return o1Type.compareTo(o2Type);
-
-        }
-    }
-
-    private List<Relation> generateRelations(DataCache dataCache) {
+    private List<Relation> generateRelations() {
+        Map<String,FamilyMember> familyMemberMap = DataCache.getInstance().familyMemberMap;
 
         List<Relation> relations = new ArrayList<>();
         if (person.getMotherID() != null){
-            relations.add(new Relation(dataCache.familyMemberMap.get(person.getMotherID()), "Mother"));
+            relations.add(new Relation(familyMemberMap.get(person.getMotherID()), "Mother"));
         }
         if (person.getFatherID() != null){
-            relations.add(new Relation(dataCache.familyMemberMap.get(person.getFatherID()), "Father"));
+            relations.add(new Relation(familyMemberMap.get(person.getFatherID()), "Father"));
         }
         if (person.getSpouseID() != null){
-            relations.add(new Relation(dataCache.familyMemberMap.get(person.getSpouseID()), "Spouse"));
+            relations.add(new Relation(familyMemberMap.get(person.getSpouseID()), "Spouse"));
         }
 
         for(String childID: person.getChildrenIDList()){
-            relations.add(new Relation(dataCache.familyMemberMap.get(childID), "Child"));
+            relations.add(new Relation(familyMemberMap.get(childID), "Child"));
         }
 
         return relations;

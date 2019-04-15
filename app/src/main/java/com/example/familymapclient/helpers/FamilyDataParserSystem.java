@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 public class FamilyDataParserSystem {
+    private static Logger log = new Logger("FamilyDataParserSystem");
 
     // TODO: 3/23/2019 SEPARATE THIS PART DOWN INTO NEW DATA SORT CLASS
 
@@ -147,12 +148,14 @@ public class FamilyDataParserSystem {
         //  Set up dictionary from personID to associated eventIDs
         Map<String, List<String>> personEventListMap = new HashMap<>();
         for (Event event: events){
-            if (personEventListMap.containsKey(event.getPersonID())){
+            List<String> eventIDList = personEventListMap.get(event.getPersonID());
+            if (eventIDList != null){
                 //  Add to the existing list
-                personEventListMap.get(event.getPersonID()).add(event.getEventID());
+                eventIDList.add(event.getEventID());
 
             } else {
                 //  Make a new list of events for the personID
+                log.d("Assigning eventlist to "+event.getPersonID());
                 List<String> eventIDsList = new ArrayList<>();
                 eventIDsList.add(event.getEventID());
                 personEventListMap.put(event.getPersonID(),eventIDsList);

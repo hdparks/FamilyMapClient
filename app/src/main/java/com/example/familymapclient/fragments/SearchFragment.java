@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.example.familymapclient.R;
 import com.example.familymapclient.activities.EventActivity;
 import com.example.familymapclient.activities.PersonActivity;
+import com.example.familymapclient.helpers.Logger;
 import com.example.familymapclient.helpers.search.Search;
 import com.example.familymapclient.helpers.search.SearchResult;
 import com.joanzapata.iconify.IconDrawable;
@@ -32,7 +33,7 @@ import java.util.List;
 
 public class SearchFragment extends Fragment {
 
-    private static final String LOG_TAG = "SearchFragment";
+    private static final Logger log = new Logger("SearchFragment");
     private EditText queryView;
     private RecyclerView resultView;
 
@@ -69,7 +70,7 @@ public class SearchFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                Log.d(LOG_TAG, "Sending search query");
+                log.d("Sending search query");
                 String query = queryView.getText().toString();
                 if (query.isEmpty()) return;
 
@@ -127,7 +128,7 @@ public class SearchFragment extends Fragment {
 
                 case event:
                     iconType = FontAwesomeIcons.fa_map_marker;
-                    color = R.color.colorWhite;
+                    color = R.color.colorPrimary;
 
                     break;
 
@@ -144,22 +145,28 @@ public class SearchFragment extends Fragment {
 
         @Override
         public void onClick(View v) {
+            log.d("Registering Click on "+v.toString());
+            log.d(this.searchResult.getIconType().toString());
             switch (this.searchResult.getIconType()){
                 case event:
+                    log.d("Intenting to an event activity");
                     //  Start the event activity
                     Intent eventIntent = new Intent(getActivity(), EventActivity.class);
                     eventIntent.putExtra(EventActivity.EXTRA_EVENT_ID,searchResult.getResourceID());
                     startActivity(eventIntent);
-                    break;
+                    return;
 
-                case female:
                 case male:
+                case female:
+
+                    log.d("Intenting to a person activity");
                     //  Start the person activity
                     Intent personIntent = new Intent(getActivity(), PersonActivity.class);
                     personIntent.putExtra(PersonActivity.EXTRA_PERSON_ID,searchResult.getResourceID());
                     startActivity(personIntent);
-                    break;
-
+                    return;
+                default:
+                    return;
             }
         }
     }
