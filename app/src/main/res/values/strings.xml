@@ -11,4 +11,30 @@
     <string name="menu">Menu</string>
     <string name="search">Search</string>
     <string name="gendericon">genderIcon</string>
+    <string name="life_story_lines">Life Story Lines</string>
+    <string name="show_life_story_lines">Show Life Story Lines</string>
+    <string name="family_tree_lines">Family Tree Lines</string>
+    <string name="show_tree_lines">Show Tree Lines</string>
+    <string name="spouse_lines">Spouse Lines</string>
+    <string name="show_spouse_lines">Show Spouse Lines</string>
+    <string name="background_display_on_map">Background Display On Map</string>
+    <string name="map_type">Map Type</string>
+    <string name="re_sync_data">Re-sync Data</string>
+    <string name="logout">Logout</string>
+    <string name="returns_to_login_screen">Returns to Login screen</string>
+
+    <string-array name="colors">
+        <item>Red</item>
+        <item>Yellow</item>
+        <item>Green</item>
+        <item>Blue</item>
+        <item>Magenta</item>
+    </string-array>
+
+    <string-array name="maps">
+        <item>Normal</item>
+        <item>Hybrid</item>
+        <item>Satellite</item>
+        <item>Terrain</item>
+    </string-array>
 </resources>

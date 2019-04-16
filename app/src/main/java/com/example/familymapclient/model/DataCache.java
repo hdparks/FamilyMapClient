@@ -1,5 +1,7 @@
 package com.example.familymapclient.model;
 
+import android.graphics.Color;
+
 import com.example.familymapclient.R;
 import com.example.familymapclient.helpers.filter.FilteredMap;
 
@@ -45,7 +47,7 @@ public class DataCache {
 
     public Settings getSettings(){
         if (settings == null){
-            return new Settings(R.color.colorOrange, R.color.colorGreen,R.color.colorBlue);
+            settings = new Settings();
         }
         return settings;
     }

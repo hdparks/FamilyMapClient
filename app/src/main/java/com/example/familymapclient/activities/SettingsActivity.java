@@ -1,11 +1,14 @@
 package com.example.familymapclient.activities;
 
 import android.content.Intent;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.example.familymapclient.R;
+import com.example.familymapclient.fragments.SearchFragment;
+import com.example.familymapclient.fragments.SettingsFragment;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -13,6 +16,15 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+
+        FragmentManager fm = getSupportFragmentManager();
+
+        SettingsFragment settingsFragment = (SettingsFragment) fm.findFragmentById(R.id.settings_fragment);
+
+        if (settingsFragment == null){
+            settingsFragment = new SettingsFragment();
+            fm.beginTransaction().add(R.id.settings_fragment,settingsFragment).commit();
+        }
     }
 
     @Override

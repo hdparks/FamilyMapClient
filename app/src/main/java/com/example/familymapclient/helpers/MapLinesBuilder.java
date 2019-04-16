@@ -1,9 +1,5 @@
 package com.example.familymapclient.helpers;
 
-import android.provider.ContactsContract;
-
-import com.example.familymapclient.R;
-import com.example.familymapclient.fragments.BirthDeathSort;
 import com.example.familymapclient.helpers.filter.FilteredMap;
 import com.example.familymapclient.model.DataCache;
 import com.example.familymapclient.model.Event;
@@ -13,12 +9,12 @@ import com.example.familymapclient.model.Settings;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 public class MapLinesBuilder {
 
     public List<MapLine> mapLines;
     public Settings settings;
+    private static Logger log = new Logger("MapLinesBuilder");
 
     public MapLinesBuilder(Event event){
         mapLines = new ArrayList<>();
@@ -38,11 +34,14 @@ public class MapLinesBuilder {
         //  Line from current event to Father's birth event (or earliest available)
         //  Also to Mother's birth (or earliest available)
         //  Recurse through generations, LINES GET THINNER
-        upFamilyTree(currentEvent.getPersonID(), currentEvent,10);
+        if (currentEvent == null){ log.d("Current Event nulled"); return;}
+
+        upFamilyTree(currentEvent.getPersonID(), currentEvent,15);
 
     }
 
     private void upFamilyTree(String personID, Event earliestEvent,int w){
+        if (earliestEvent == null) { log.d("NULL EVENT PASSED IN"); }
         //  Get person
         FamilyMember person = DataCache.getInstance().familyMemberMap.get(personID);
         if (person == null) return;
@@ -51,24 +50,26 @@ public class MapLinesBuilder {
         Event motherEvent = getEarliestEvent(person.getMotherID());
         if (motherEvent != null){
             //  Add a line between person's earliest event, mother's earliest event
-            mapLines.add(new MapLine(earliestEvent,motherEvent,w));
+            mapLines.add(new MapLine(earliestEvent,motherEvent,w,settings.getFamilyTreeLineColor()));
+            upFamilyTree(person.getMotherID(), motherEvent, w > 7 ? w - 4 : 3);
         }
         //  Same for Father
         Event fatherEvent = getEarliestEvent(person.getFatherID());
         if (fatherEvent != null){
             //  Add a line
-            mapLines.add(new MapLine(earliestEvent, fatherEvent,w));
+            mapLines.add(new MapLine(earliestEvent, fatherEvent,w,settings.getFamilyTreeLineColor()));
+            upFamilyTree(person.getFatherID(), fatherEvent, w > 7 ? w - 4 : 3);
         }
-
-        //  recurse on either side
-        upFamilyTree(person.getMotherID(), motherEvent, w > 5 ? w - 2 : 3);
-        upFamilyTree(person.getFatherID(), fatherEvent, w > 5 ? w - 2: 3);
 
     }
 
     private void addLifeStoryLines() {
         //  Lines drawn through current event's timeline in chronological order
         //  Only visible events.
+
+        //  Get list of events
+
+
 
     }
 
@@ -143,13 +144,13 @@ public class MapLinesBuilder {
             this.width = width;
         }
 
-        public MapLine(Event e1, Event e2, int w){
-            new MapLine(
-                Double.valueOf(e1.getLatitude()),
-                Double.valueOf(e1.getLongitude()),
-                Double.valueOf(e2.getLatitude()),
-                Double.valueOf(e2.getLongitude()),
-                settings.getFamilyTreeLineColor(),
+        public MapLine(Event e1, Event e2, int w,int color){
+            this(
+                Double.parseDouble(e1.getLatitude()),
+                Double.parseDouble(e1.getLongitude()),
+                Double.parseDouble(e2.getLatitude()),
+                Double.parseDouble(e2.getLongitude()),
+                color,
                 w
             );
         }

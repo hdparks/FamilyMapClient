@@ -54,6 +54,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private TextView eventTypeLocationYear;
     private List<Event> eventList;
     private Event currentEvent;
+    private boolean menu = true;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -62,6 +63,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         if (getArguments() != null){
             currentEvent = getArguments().getParcelable(ARG_SELECTED_EVENT);
+            menu = false;
         }
 
     }
@@ -76,10 +78,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+        //  Grab event data fields
         this.genderIcon = view.findViewById(R.id.genderIcon);
         this.personFullName = view.findViewById(R.id.personFullName);
         this.eventTypeLocationYear = view.findViewById(R.id.eventTypeLocationYear);
 
+        //  Set click listener for event data fields
         view.findViewById(R.id.eventData).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -92,7 +96,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             }
         });
 
-
+        //  Pull the list of valid events
         getEventList();
 
         return view;
@@ -102,6 +106,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         this.eventList = DataCache.getInstance().eventMap.getFilteredEvents();
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getEventList();
+        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
     }
 
 
@@ -114,16 +126,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             addEventMarker(e);
         }
 
-        //  Draw lines
         if (currentEvent != null){
-
             //  Focus current event
             map.animateCamera(CameraUpdateFactory.newLatLng(
                     new LatLng(Double.valueOf(currentEvent.getLatitude()),Double.valueOf(currentEvent.getLongitude()))));
 
-            MapLinesBuilder linesBuilder = new MapLinesBuilder(currentEvent);
-            log.d("Drawing " + linesBuilder.mapLines.size() + " lines");
 
+            //  Draw lines
+            MapLinesBuilder linesBuilder = new MapLinesBuilder(currentEvent);
             for (MapLinesBuilder.MapLine l: linesBuilder.mapLines){
                 drawLine(l);
             }
@@ -133,6 +143,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        //  Make sure we are in a state that needs a menu
+        if (!this.menu){ return; }
+
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.full_menu, menu);
 
@@ -182,16 +195,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        log.d("On Map Ready called");
         map = googleMap;
-
-        LatLng[] points = {        new LatLng(51.5,-0.1), new LatLng(40.7,-74.0)};
-        Polyline a = map.addPolyline(new PolylineOptions().addAll(Arrays.asList(points)).width(15).color(Color.RED));
+        map.setMapType(DataCache.getInstance().getSettings().getMapType());
 
         //  Add listener for map marker
         map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-                log.d("Marker clicked");
                 //  Center screen
                 map.animateCamera(CameraUpdateFactory.newLatLng(marker.getPosition()));
 
@@ -210,7 +221,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     }
 
     private void updateCurrentEvent(Event event){
-        log.d("Updating current event");
 
         //  If null, do nothing
         if (event == null) {
@@ -235,12 +245,18 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     }
 
     private void drawLine(MapLinesBuilder.MapLine l) {
-        map.addPolyline(new PolylineOptions()
-                .add(
-                        new LatLng(l.getLat1(),l.getLong1()),
-                        new LatLng(l.getLat2(), l.getLong2()))
-                .color(0)
-                .width(20));
+        LatLng[] points = {
+                new LatLng(l.getLat1(),l.getLong1()),
+                new LatLng(l.getLat2(), l.getLong2())
+        };
+
+
+        Polyline polyline = map.addPolyline(new PolylineOptions()
+                .add(points)
+                .color(l.getColor())
+                .width(l.getWidth())
+                .zIndex(30)
+                .visible(true));
     }
 
     private void addEventMarker(Event event){

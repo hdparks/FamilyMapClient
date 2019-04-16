@@ -1,4 +1,4 @@
-package com.example.familymapclient.fragments;
+package com.example.familymapclient.helpers;
 
 import com.example.familymapclient.model.Event;
 

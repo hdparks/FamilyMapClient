@@ -7,7 +7,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +18,7 @@ import android.widget.TextView;
 import com.example.familymapclient.R;
 import com.example.familymapclient.activities.EventActivity;
 import com.example.familymapclient.activities.PersonActivity;
+import com.example.familymapclient.helpers.BirthDeathSort;
 import com.example.familymapclient.helpers.Logger;
 import com.example.familymapclient.model.DataCache;
 import com.example.familymapclient.model.Event;
@@ -28,7 +28,6 @@ import com.joanzapata.iconify.fonts.FontAwesomeIcons;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 

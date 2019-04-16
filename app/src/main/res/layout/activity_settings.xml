@@ -6,36 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".activities.SettingsActivity">
 
-    <TableLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <TableRow>
-        <LinearLayout android:orientation="vertical">
-            <TextView
-                android:text="Life Story Lines"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                />
-            <TextView style="@style/label"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:text="Show Life Story Lines"/>
-        </LinearLayout>
-    </TableRow>
-
-    <TableRow>
-        <LinearLayout android:orientation="vertical">
-            <TextView
-                android:text="Family Tree Lines"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content" />
-            <TextView style="@style/label"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:text="Show Tree Lines"/>
-        </LinearLayout>
-    </TableRow>
-
-    </TableLayout>
-
+        android:layout_height="match_parent"
+        android:id="@+id/settings_fragment"/>
 </android.support.constraint.ConstraintLayout>
