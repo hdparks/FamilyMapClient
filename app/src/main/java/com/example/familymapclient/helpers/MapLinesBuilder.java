@@ -15,18 +15,21 @@ public class MapLinesBuilder {
     public List<MapLine> mapLines;
     public Settings settings;
     private static Logger log = new Logger("MapLinesBuilder");
+    private DataCache dataCache;
 
     public MapLinesBuilder(Event event){
         mapLines = new ArrayList<>();
 
+        dataCache = DataCache.getInstance();
+
         //  Get Settings for what lines to draw
-        settings = DataCache.getInstance().getSettings();
+        settings = dataCache.getSettings();
 
         if (settings.isFamilyTreeLineOn()){ addFamilyTreeLines(event); }
 
-        if (settings.isLifeStoryLineOn()) { addLifeStoryLines(); }
+        if (settings.isLifeStoryLineOn()) { addLifeStoryLines(event); }
 
-        if (settings.isSpouseLineOn()) { addSpouseLine(); }
+        if (settings.isSpouseLineOn()) { addSpouseLine(event); }
 
     }
 
@@ -43,7 +46,7 @@ public class MapLinesBuilder {
     private void upFamilyTree(String personID, Event earliestEvent,int w){
         if (earliestEvent == null) { log.d("NULL EVENT PASSED IN"); }
         //  Get person
-        FamilyMember person = DataCache.getInstance().familyMemberMap.get(personID);
+        FamilyMember person = dataCache.familyMemberMap.get(personID);
         if (person == null) return;
 
         //  Get earliest mother event
@@ -63,12 +66,27 @@ public class MapLinesBuilder {
 
     }
 
-    private void addLifeStoryLines() {
+    private void addLifeStoryLines(Event event) {
         //  Lines drawn through current event's timeline in chronological order
         //  Only visible events.
 
         //  Get list of events
-
+        List<String> eventIDList = dataCache.personEventListMap.get(event.getPersonID());
+        List<Event> eventList = new ArrayList<>();
+        for (String id : eventIDList){
+            Event e = dataCache.eventMap.get(id);
+            if (e != null){
+                eventList.add(e);
+            }
+        }
+        
+        //  Sort Event list
+        Collections.sort(eventList,new BirthDeathSort());
+        
+        //  Add line through events
+        for (int i = 0; i < eventList.size(); i++){
+            // TODO: 4/16/2019 FINISH THIS 
+        }
 
 
     }
@@ -83,10 +101,10 @@ public class MapLinesBuilder {
 
     private Event getEarliestEvent(String personID){
 
-        List<String> eventIDList = DataCache.getInstance().personEventListMap.get(personID);
+        List<String> eventIDList = dataCache.personEventListMap.get(personID);
         if (eventIDList == null) return null;
 
-        FilteredMap eventMap = DataCache.getInstance().eventMap;
+        FilteredMap eventMap = dataCache.eventMap;
         List<Event> eventList = new ArrayList<>();
         for (String id: eventIDList){
             Event e = eventMap.get(id);
