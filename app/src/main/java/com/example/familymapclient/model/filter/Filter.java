@@ -1,4 +1,4 @@
-package com.example.familymapclient.helpers.filter;
+package com.example.familymapclient.model.filter;
 
 public class Filter {
     private boolean active;

@@ -123,6 +123,20 @@ public class Event implements Parcelable {
     }
 
     @Override
+    public String toString() {
+        return "Event{" +
+                "eventID='" + eventID + '\'' +
+                ", personID='" + personID + '\'' +
+                ", latitude='" + latitude + '\'' +
+                ", longitude='" + longitude + '\'' +
+                ", country='" + country + '\'' +
+                ", city='" + city + '\'' +
+                ", eventType='" + eventType + '\'' +
+                ", year=" + year +
+                '}';
+    }
+
+    @Override
     public int hashCode() {
         int result = eventID.hashCode();
         result = 31 * result + personID.hashCode();

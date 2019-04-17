@@ -1,10 +1,9 @@
-package com.example.familymapclient.helpers.filter;
-
-import android.util.Log;
+package com.example.familymapclient.model.filter;
 
 import com.example.familymapclient.helpers.Logger;
 import com.example.familymapclient.helpers.UnitTestLogger;
 import com.example.familymapclient.model.Event;
+import com.example.familymapclient.model.FamilyMember;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,8 +19,8 @@ public class FilteredMap {
 
 
 
-    enum Gender {f, m;}
-    enum Side {Mother, Father, User;}
+    enum Gender {f, m}
+    enum Side {Mother, Father, User}
     private Map<String, Gender> genderMap;
 
     private Map<String, Side> sideMap;
@@ -31,7 +30,7 @@ public class FilteredMap {
     private Filter femaleFilter;
     private Filter maternalFilter;
     private Filter paternalFilter;
-    private Map<String, Filter> typeToFilterMap;
+    public Map<String, Filter> typeToFilterMap;
 
     public List<Filter> filterList;
 
@@ -172,5 +171,98 @@ public class FilteredMap {
 
         return events;
     }
+
+    public FilteredMap(Map<String, FamilyMember> familyMemberIDMap, Map<String, Event> eventIDMap,
+                       Map<String, List<String>> personEventListMap, FamilyMember userPerson){
+        this();
+
+        //  Start with the User's events
+        boolean isFemale = userPerson.getGender().toLowerCase().equals("f");
+        List<String> eventIDs = personEventListMap.get(userPerson.getPersonID());
+
+        if (eventIDs != null){
+            log.d("Doing User's events");
+            for(String id: eventIDs){
+                putUserEvent(eventIDMap.get(id), isFemale);
+            }
+        }
+
+        //  Also get their spouse!
+        String spouseID = userPerson.getSpouseID();
+        if  (spouseID != null){
+            boolean spouseIsFemale = familyMemberIDMap.get(userPerson.getSpouseID()).getGender().toLowerCase().equals("f");
+            List<String> spouseEventIDs = personEventListMap.get(spouseID);
+
+            log.d("doing spouse's events");
+            if (spouseEventIDs != null){
+                for(String id: spouseEventIDs){
+                    putUserEvent(eventIDMap.get(id),spouseIsFemale);
+                }
+            }
+
+        }
+
+        //  Now move up the line on Mother's side
+        if (userPerson.getMotherID() != null){
+            log.d("Moving up mother's side");
+            FamilyMember mother = familyMemberIDMap.get(userPerson.getMotherID());
+            populateMaternalSide(familyMemberIDMap,eventIDMap,personEventListMap,mother);
+        }
+
+        //  And Father's side
+        if (userPerson.getFatherID() != null){
+            log.d("Moving up mother's side");
+            FamilyMember father = familyMemberIDMap.get(userPerson.getFatherID());
+            populatePaternalSide(familyMemberIDMap,eventIDMap,personEventListMap,father);
+        }
+
+    }
+
+    private void populatePaternalSide(Map<String, FamilyMember> familyMemberIDMap, Map<String, Event> eventIDMap, Map<String, List<String>> personEventListMap, FamilyMember patPerson) {
+        boolean isFemale = patPerson.getGender().toLowerCase().equals("f");
+        List<String> eventIDs = personEventListMap.get(patPerson.getPersonID());
+
+        if (eventIDs != null){
+            for(String id: eventIDs){
+                putEvent(eventIDMap.get(id),false, isFemale);
+            }
+        }
+
+        //  Now move up the line on Mother's side
+        if (patPerson.getMotherID() != null){
+            FamilyMember mother = familyMemberIDMap.get(patPerson.getMotherID());
+            populateMaternalSide(familyMemberIDMap,eventIDMap,personEventListMap,mother);
+        }
+
+        //  And Father's side
+        if (patPerson.getFatherID() != null){
+            FamilyMember father = familyMemberIDMap.get(patPerson.getFatherID());
+            populatePaternalSide(familyMemberIDMap,eventIDMap,personEventListMap,father);
+        }
+    }
+
+    private void populateMaternalSide(Map<String, FamilyMember> familyMemberIDMap, Map<String, Event> eventIDMap, Map<String, List<String>> personEventListMap, FamilyMember matPerson) {
+        boolean isFemale = matPerson.getGender().toLowerCase().equals("f");
+        List<String> eventIDs = personEventListMap.get(matPerson.getPersonID());
+        if (eventIDs != null){
+            for(String id: eventIDs){
+                putEvent(eventIDMap.get(id), true, isFemale);
+            }
+        }
+
+        //  Now move up the line on Mother's side
+        if (matPerson.getMotherID() != null){
+            FamilyMember mother = familyMemberIDMap.get(matPerson.getMotherID());
+            populateMaternalSide(familyMemberIDMap,eventIDMap,personEventListMap,mother);
+        }
+
+        //  And Father's side
+        if (matPerson.getFatherID() != null){
+            FamilyMember father = familyMemberIDMap.get(matPerson.getFatherID());
+            populateMaternalSide(familyMemberIDMap,eventIDMap,personEventListMap,father);
+        }
+    }
+
+
 }
 

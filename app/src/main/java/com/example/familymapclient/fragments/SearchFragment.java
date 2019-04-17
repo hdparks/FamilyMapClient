@@ -10,7 +10,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,8 +21,8 @@ import com.example.familymapclient.R;
 import com.example.familymapclient.activities.EventActivity;
 import com.example.familymapclient.activities.PersonActivity;
 import com.example.familymapclient.helpers.Logger;
-import com.example.familymapclient.helpers.search.Search;
-import com.example.familymapclient.helpers.search.SearchResult;
+import com.example.familymapclient.model.search.Search;
+import com.example.familymapclient.model.search.SearchResult;
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.fonts.FontAwesomeIcons;
 

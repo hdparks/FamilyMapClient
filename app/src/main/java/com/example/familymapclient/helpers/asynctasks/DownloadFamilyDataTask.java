@@ -3,7 +3,7 @@ package com.example.familymapclient.helpers.asynctasks;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.example.familymapclient.helpers.FamilyDataParserSystem;
+import com.example.familymapclient.helpers.parsing.FamilyDataParserSystem;
 import com.example.familymapclient.helpers.asynctasks.http.httpResponses.EventResponse;
 import com.example.familymapclient.helpers.asynctasks.http.HttpClient;
 import com.example.familymapclient.helpers.asynctasks.http.httpResponses.PersonResponse;

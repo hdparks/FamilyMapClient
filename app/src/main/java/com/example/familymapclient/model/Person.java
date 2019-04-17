@@ -84,4 +84,17 @@ public class Person implements Parcelable {
         mother = in.readString();
         spouse = in.readString();
     }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "personID='" + personID + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", gender='" + gender + '\'' +
+                ", father='" + father + '\'' +
+                ", mother='" + mother + '\'' +
+                ", spouse='" + spouse + '\'' +
+                '}';
+    }
 }

@@ -1,0 +1,100 @@
+{
+  "data": [
+    {
+      "personID": "Sheila_Parker",
+      "descendant": "sheila",
+      "firstName": "Sheila",
+      "lastName": "Parker",
+      "gender": "f",
+      "father": "Blaine_McGary",
+      "mother": "Betty_White",
+      "spouse": "Davis_Hyer"
+    },
+    {
+      "personID": "Davis_Hyer",
+      "descendant": "sheila",
+      "firstName": "Davis",
+      "lastName": "Hyer",
+      "gender": "m",
+      "spouse": "Sheila_Parker"
+    },
+    {
+      "personID": "Blaine_McGary",
+      "descendant": "sheila",
+      "firstName": "Blaine",
+      "lastName": "McGary",
+      "gender": "m",
+      "father": "Ken_Rodham",
+      "mother": "Mrs_Rodham",
+      "spouse": "Betty_White"
+    },
+    {
+      "personID": "Betty_White",
+      "descendant": "sheila",
+      "firstName": "Betty",
+      "lastName": "White",
+      "gender": "f",
+      "father": "Frank_Jones",
+      "mother": "Mrs_Jones",
+      "spouse": "Blaine_McGary"
+    },
+    {
+      "personID": "Ken_Rodham",
+      "descendant": "sheila",
+      "firstName": "Ken",
+      "lastName": "Rodham",
+      "gender": "m",
+      "spouse": "Mrs_Rodham"
+    },
+    {
+      "personID": "Mrs_Rodham",
+      "descendant": "sheila",
+      "firstName": "Mrs",
+      "lastName": "Rodham",
+      "gender": "f",
+      "spouse": "Ken_Rodham"
+    },
+    {
+      "personID": "Frank_Jones",
+      "descendant": "sheila",
+      "firstName": "Frank",
+      "lastName": "Jones",
+      "gender": "m",
+      "spouse": "Mrs_Jones"
+    },
+    {
+      "personID": "Mrs_Jones",
+      "descendant": "sheila",
+      "firstName": "Mrs",
+      "lastName": "Jones",
+      "gender": "f",
+      "spouse": "Frank_Jones"
+    },
+    {
+      "personID": "Patrick_Spencer",
+      "descendant": "patrick",
+      "firstName": "Patrick",
+      "lastName": "Spencer",
+      "gender": "m",
+      "father": "Happy_Birthday",
+      "mother": "Golden_Boy"
+    },
+    {
+      "personID": "Happy_Birthday",
+      "descendant": "patrick",
+      "firstName": "Patrick",
+      "lastName": "Wilson",
+      "gender": "m",
+      "spouse": "Golden_Boy"
+    },
+    {
+      "personID": "Golden_Boy",
+      "descendant": "patrick",
+      "firstName": "Spencer",
+      "lastName": "Seeger",
+      "gender": "f",
+      "spouse": "Happy_Birthday"
+    }
+  ],
+  "success": true
+}

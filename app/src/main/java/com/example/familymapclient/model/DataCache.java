@@ -1,9 +1,6 @@
 package com.example.familymapclient.model;
 
-import android.graphics.Color;
-
-import com.example.familymapclient.R;
-import com.example.familymapclient.helpers.filter.FilteredMap;
+import com.example.familymapclient.model.filter.FilteredMap;
 
 import java.util.List;
 import java.util.Map;
