@@ -121,8 +121,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public void onResume() {
         super.onResume();
         getEventList();
+        updateCurrentEvent(currentEvent);
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
     }
 
 
@@ -231,10 +233,25 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     }
 
     private void updateCurrentEvent(Event event){
-
         //  If null, do nothing
         if (event == null) {
             log.d("Current event is NULL");
+            return;
+        }
+
+        //  Ask for the "current" event to make sure it hasn't been filtered
+        //  If it has been filtered, clear the bottom card
+        Event myevent = DataCache.getInstance().eventMap.get(event.getEventID());
+        if (myevent == null) {
+            currentEvent = null;
+
+            genderIcon.setImageResource(android.R.color.transparent);
+            personFullName.setText(null);
+            eventTypeLocationYear.setText(null);
+
+
+
+
             return;
         }
 

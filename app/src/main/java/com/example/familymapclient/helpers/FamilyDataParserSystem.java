@@ -29,6 +29,7 @@ public class FamilyDataParserSystem {
         //  Set up dictionary from personID to a list of their events
         Map<String, List<String>> personEventListMap = generatePersonEventMap(events);
 
+        //  Set up dictionary from events to eventIDs
         Map<String, Event> eventIDMap = generateEventIDMap(events);
 
         //  Find User's Person
@@ -69,6 +70,21 @@ public class FamilyDataParserSystem {
             for(String id: eventIDs){
                 eventMap.putUserEvent(eventIDMap.get(id), isFemale);
             }
+        }
+
+        //  Also get their spouse!
+        String spouseID = userPerson.getSpouseID();
+        if  (spouseID != null){
+            boolean spouseIsFemale = familyMemberIDMap.get(userPerson.getSpouseID()).getGender().toLowerCase().equals("f");
+            List<String> spouseEventIDs = personEventListMap.get(spouseID);
+
+            log.d("doing spouse's events");
+            if (spouseEventIDs != null){
+                for(String id: spouseEventIDs){
+                    eventMap.putUserEvent(eventIDMap.get(id),spouseIsFemale);
+                }
+            }
+
         }
 
         //  Now move up the line on Mother's side

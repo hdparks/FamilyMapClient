@@ -18,22 +18,22 @@ public class FilteredMap {
 
     private Map<String, Event> eventMap;
 
-    enum Gender {f, m}
-    enum Side {Mother, Father, User;}
 
+
+    enum Gender {f, m;}
+    enum Side {Mother, Father, User;}
     private Map<String, Gender> genderMap;
+
     private Map<String, Side> sideMap;
     private Map<String, String> typeMap;
-
     private Filter maleFilter;
+
     private Filter femaleFilter;
     private Filter maternalFilter;
     private Filter paternalFilter;
-
     private Map<String, Filter> typeToFilterMap;
 
     public List<Filter> filterList;
-
 
     public FilteredMap() {
         this.eventMap = new HashMap<>();
@@ -56,6 +56,7 @@ public class FilteredMap {
         filterList.add(maternalFilter);
         filterList.add(paternalFilter);
     }
+
 
     public void putEvent(Event event, boolean isMaternal, boolean isFemale) {
         this.genderMap.put(event.getEventID(), isFemale ? Gender.f : Gender.m);
@@ -98,6 +99,11 @@ public class FilteredMap {
         //  Check all filters
         //  Check gender
         Gender gender = genderMap.get(eventID);
+        if (gender == null){
+            log.d("SOMETHING REALLY WRONG");
+            log.d("Event "+ eventID + " has no gender");
+            return null;
+        }
         switch (gender) {
             case f:
                 if (!femaleFilter.getActive()) return null;
@@ -113,6 +119,7 @@ public class FilteredMap {
 
         //  Check side
         Side side = sideMap.get(eventID);
+
         switch (side) {
             case Father:
                 if (!paternalFilter.getActive()) {

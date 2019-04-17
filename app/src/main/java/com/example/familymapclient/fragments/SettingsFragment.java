@@ -162,6 +162,7 @@ public class SettingsFragment extends Fragment implements DownloadFamilyDataTask
 
                 //  Intent back to MainActivity
                 Intent intent = new Intent(getActivity(), MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
             }
         });
@@ -194,6 +195,7 @@ public class SettingsFragment extends Fragment implements DownloadFamilyDataTask
         if (result){
             //  Intent to MainActivity
             Intent intent = new Intent(getActivity(), MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         }
     }
