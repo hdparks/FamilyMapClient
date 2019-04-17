@@ -1,10 +1,10 @@
 package com.example.familymapclient.fragments;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.net.Uri;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,17 +13,21 @@ import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.Spinner;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import com.example.familymapclient.R;
+import com.example.familymapclient.activities.MainActivity;
+import com.example.familymapclient.helpers.Logger;
+import com.example.familymapclient.helpers.asynctasks.DownloadFamilyDataTask;
 import com.example.familymapclient.model.DataCache;
 import com.example.familymapclient.model.Settings;
 
-import java.util.Set;
 
+public class SettingsFragment extends Fragment implements DownloadFamilyDataTask.DownloadFamilyDataTaskListener{
 
-public class SettingsFragment extends Fragment {
-
+    private static final Logger log = new Logger("SettingsFragment");
     Settings settings;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -53,10 +57,10 @@ public class SettingsFragment extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 switch (position){
                     case 0: settings.setMapType(Settings.MapType.Normal); return;
-                    case 1: settings.setMapType(Settings.MapType.Satellite); return;
-                    case 2: settings.setMapType(Settings.MapType.Hybrid); return;
+                    case 1: settings.setMapType(Settings.MapType.Hybrid); return;
+                    case 2: settings.setMapType(Settings.MapType.Satellite); return;
                     case 3: settings.setMapType(Settings.MapType.Terrain); return;
-                    default: return;
+                    default:
                 }
             }
 
@@ -148,8 +152,49 @@ public class SettingsFragment extends Fragment {
             }
         });
 
+        //  Setup Logout button
+        View logout = view.findViewById(R.id.logout);
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //  Clear DataCache
+                DataCache.clearCache();
+
+                //  Intent back to MainActivity
+                Intent intent = new Intent(getActivity(), MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        //  Setup Resync
+        View resync = view.findViewById(R.id.resync);
+        resync.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //  Call
+                DownloadFamilyDataTask task = new DownloadFamilyDataTask();
+                task.registerListener(SettingsFragment.this);
+                task.execute();
+            }
+        });
+
 
         return view;
     }
 
+    @Override
+    public void familyDataTaskCompleted(boolean result) {
+
+        Context context = getContext();
+        CharSequence text = result ? "Re-sync Successful!" : "Error Syncing Family Data";
+
+        //  Make some toast
+        Toast.makeText(context,text,Toast.LENGTH_SHORT).show();
+
+        if (result){
+            //  Intent to MainActivity
+            Intent intent = new Intent(getActivity(), MainActivity.class);
+            startActivity(intent);
+        }
+    }
 }

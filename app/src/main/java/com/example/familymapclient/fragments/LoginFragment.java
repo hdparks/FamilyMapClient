@@ -18,7 +18,7 @@ import android.widget.Toast;
 
 import com.example.familymapclient.helpers.asynctasks.RegisterTask;
 import com.example.familymapclient.model.DataCache;
-import com.example.familymapclient.helpers.asynctasks.DownloadFamliyDataTask;
+import com.example.familymapclient.helpers.asynctasks.DownloadFamilyDataTask;
 import com.example.familymapclient.helpers.asynctasks.LoginTask;
 import com.example.familymapclient.R;
 import com.example.familymapclient.activities.MainActivity;
@@ -26,7 +26,7 @@ import com.example.familymapclient.helpers.asynctasks.http.httpRequests.LoginReq
 import com.example.familymapclient.helpers.asynctasks.http.httpRequests.RegisterRequestBody;
 
 
-public class LoginFragment extends Fragment implements LoginTask.LoginTaskListener, RegisterTask.RegisterTaskListener, DownloadFamliyDataTask.DownloadFamilyDataTaskListener {
+public class LoginFragment extends Fragment implements LoginTask.LoginTaskListener, RegisterTask.RegisterTaskListener, DownloadFamilyDataTask.DownloadFamilyDataTaskListener {
 
     private static final String LOG_TAG = "AddressFragment";
 
@@ -188,7 +188,7 @@ public class LoginFragment extends Fragment implements LoginTask.LoginTaskListen
 
         //  If successful, query for family data
         if (result){
-            DownloadFamliyDataTask task = new DownloadFamliyDataTask();
+            DownloadFamilyDataTask task = new DownloadFamilyDataTask();
             task.registerListener(this);
             task.execute();
         }
@@ -207,7 +207,7 @@ public class LoginFragment extends Fragment implements LoginTask.LoginTaskListen
 
         //  If successful, query for family data
         if(result){
-            DownloadFamliyDataTask task = new DownloadFamliyDataTask();
+            DownloadFamilyDataTask task = new DownloadFamilyDataTask();
             task.registerListener(this);
             task.execute();
         }

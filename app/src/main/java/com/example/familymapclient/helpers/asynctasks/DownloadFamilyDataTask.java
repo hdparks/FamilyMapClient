@@ -12,7 +12,7 @@ import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DownloadFamliyDataTask extends AsyncTask<Void, Void, String[]> {
+public class DownloadFamilyDataTask extends AsyncTask<Void, Void, String[]> {
 
     private static final String LOG_TAG = "DownloadFamilyDataTask";
 

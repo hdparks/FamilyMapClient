@@ -52,5 +52,9 @@ public class DataCache {
         return settings;
     }
 
+    public static void clearCache(){
+        instance = null;
+    }
+
 
 }

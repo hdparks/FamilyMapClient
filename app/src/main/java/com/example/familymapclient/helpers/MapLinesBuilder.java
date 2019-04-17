@@ -4,6 +4,7 @@ import com.example.familymapclient.helpers.filter.FilteredMap;
 import com.example.familymapclient.model.DataCache;
 import com.example.familymapclient.model.Event;
 import com.example.familymapclient.model.FamilyMember;
+import com.example.familymapclient.model.Person;
 import com.example.familymapclient.model.Settings;
 
 import java.util.ArrayList;
@@ -61,7 +62,7 @@ public class MapLinesBuilder {
         if (fatherEvent != null){
             //  Add a line
             mapLines.add(new MapLine(earliestEvent, fatherEvent,w,settings.getFamilyTreeLineColor()));
-            upFamilyTree(person.getFatherID(), fatherEvent, w > 7 ? w - 4 : 3);
+            upFamilyTree(person.getFatherID(), fatherEvent, w > 7 ? w - 5 : 3);
         }
 
     }
@@ -84,17 +85,26 @@ public class MapLinesBuilder {
         Collections.sort(eventList,new BirthDeathSort());
         
         //  Add line through events
-        for (int i = 0; i < eventList.size(); i++){
-            // TODO: 4/16/2019 FINISH THIS 
+        for (int i = 0; i < eventList.size() - 1; i++){
+            mapLines.add(new MapLine(eventList.get(i),eventList.get(i+1),15,settings.getLifeStoryLineColor()));
         }
 
 
     }
 
-    private void addSpouseLine() {
+    private void addSpouseLine(Event event) {
         //  A Line between the selected event and the birth event of the person's spouse,
         //  (or else the spouse's earliest available event)
         //  No spouse, no line
+
+        FamilyMember person = dataCache.familyMemberMap.get(event.getPersonID());
+        String spouseID = person.getSpouseID();
+        if (spouseID == null) return;
+
+        Event spouseEvent = getEarliestEvent(spouseID);
+        if (spouseEvent == null) return;
+
+        mapLines.add(new MapLine(event,spouseEvent,15,settings.getSpouseLineColor()));
 
 
     }

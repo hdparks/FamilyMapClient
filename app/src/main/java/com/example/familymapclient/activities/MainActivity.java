@@ -1,5 +1,6 @@
 package com.example.familymapclient.activities;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +14,7 @@ import com.joanzapata.iconify.Iconify;
 import com.joanzapata.iconify.fonts.FontAwesomeModule;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String EXTRA_RESYNC = "resync";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +34,13 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Intent intent = getIntent();
+        boolean resync = intent.getBooleanExtra(EXTRA_RESYNC,false);
+        if(resync) displayMapFragment();
+    }
 
     private void displayLoginFragment() {
         FragmentManager fm = this.getSupportFragmentManager();
@@ -42,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
             fm.beginTransaction().add(R.id.mainFrameLayout, fragment).commit();
         } else {
             Fragment loginFragment = new LoginFragment();
-            fm.beginTransaction().replace(R.id.mainFrameLayout, loginFragment);
+            fm.beginTransaction().replace(R.id.mainFrameLayout, loginFragment).commit();
         }
     }
 

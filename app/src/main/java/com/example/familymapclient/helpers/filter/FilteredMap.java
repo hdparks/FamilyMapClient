@@ -70,6 +70,16 @@ public class FilteredMap {
 
     }
 
+    public void putUserEvent(Event event, boolean isFemale){
+        this.genderMap.put(event.getEventID(), isFemale ? Gender.f : Gender.m);
+        this.sideMap.put(event.getEventID(),Side.User);
+        this.typeMap.put(event.getEventID(),event.getEventType());
+
+        updateFilterMap(event);
+
+        this.eventMap.put(event.getEventID(), event);
+    }
+
     private void updateFilterMap(Event event){
         if (!typeToFilterMap.containsKey(event.getEventType().toLowerCase())){
             String type = event.getEventType().toLowerCase();
@@ -80,16 +90,6 @@ public class FilteredMap {
             typeToFilterMap.put(type.toLowerCase(), typeFilter);
             filterList.add(typeFilter);
         }
-    }
-
-    public void putUserEvent(Event event, boolean isFemale){
-        this.genderMap.put(event.getEventID(), isFemale ? Gender.f : Gender.m);
-        this.sideMap.put(event.getEventID(),Side.User);
-        this.typeMap.put(event.getEventID(),event.getEventType());
-
-        updateFilterMap(event);
-
-        this.eventMap.put(event.getEventID(), event);
     }
 
 
