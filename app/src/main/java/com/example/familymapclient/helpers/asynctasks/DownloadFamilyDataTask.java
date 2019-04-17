@@ -66,8 +66,7 @@ public class DownloadFamilyDataTask extends AsyncTask<Void, Void, String[]> {
             PersonResponse persons = JSONUtils.JsonToObject(result[0], PersonResponse.class);
             EventResponse events = JSONUtils.JsonToObject(result[1], EventResponse.class);
 
-            FamilyDataParserSystem familyDataParser = new FamilyDataParserSystem();
-            familyDataParser.parseFamilyData(persons.data,events.events);   //  Throws Excpetion if fails
+            FamilyDataParserSystem.parseFamilyData(persons.data,events.events);   //  Throws Excpetion if fails
 
             fireFamilyDataTaskCompleted(true);
 

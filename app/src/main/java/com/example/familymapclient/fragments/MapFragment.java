@@ -32,6 +32,8 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -58,8 +60,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private Event currentEvent;
     private boolean menu = true;
     private Map<String, Integer> eventTypeToColor;
+    private int topColor = 0;
 
-    private static int[] colorList = {Color.RED,Color.YELLOW, Color.GREEN,Color.CYAN,Color.MAGENTA,Color.GRAY,Color.LTGRAY,Color.WHITE};
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -269,23 +271,26 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     private void addEventMarker(Event event){
 
+        int color = getColor(event);
         Marker marker = map.addMarker(new MarkerOptions()
                 .position(new LatLng(Double.parseDouble(event.getLatitude()),
-                        Double.parseDouble(event.getLongitude())) ));
+                        Double.parseDouble(event.getLongitude())) )
+                .icon(BitmapDescriptorFactory.defaultMarker(color)));
         marker.setTag(event);
 
-
-        int color = getColor(event);
-//        marker.setIcon(new IconDrawable(getActivity(), FontAwesomeIcons.fa_map_marker).colorRes(color));
     }
 
     private int getColor(Event event){
-        Integer color = eventTypeToColor.get(event.getEventType());
+        //  Marker colors are given as integers between 0 and 360.
+        Integer color = eventTypeToColor.get(event.getEventType().toLowerCase());
         if (color == null){
-            eventTypeToColor.put(event.getEventType(), eventTypeToColor.keySet().size() +1);
+            color = topColor;
+            eventTypeToColor.put(event.getEventType().toLowerCase(),color);
+
+
+            topColor = (topColor + 75) % 360;
         }
-        // TODO: 4/16/19 FINISH THIS 
-        return android.R.color.holo_red_dark;
+        return color;
     }
 
     public void populateMap(){

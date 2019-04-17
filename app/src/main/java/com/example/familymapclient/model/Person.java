@@ -13,11 +13,11 @@ public class Person implements Parcelable {
 
     String gender;
 
-    String fatherID;
+    String father;
 
-    String motherID;
+    String mother;
 
-    String spouseID;
+    String spouse;
 
     public String getPersonID() {
         return personID;
@@ -35,16 +35,16 @@ public class Person implements Parcelable {
         return gender;
     }
 
-    public String getFatherID() {
-        return fatherID;
+    public String getFather() {
+        return father;
     }
 
-    public String getMotherID() {
-        return motherID;
+    public String getMother() {
+        return mother;
     }
 
-    public String getSpouseID() {
-        return spouseID;
+    public String getSpouse() {
+        return spouse;
     }
 
     @Override
@@ -58,9 +58,9 @@ public class Person implements Parcelable {
         dest.writeString(firstName);
         dest.writeString(lastName);
         dest.writeString(gender);
-        dest.writeString(fatherID);
-        dest.writeString(motherID);
-        dest.writeString(spouseID);
+        dest.writeString(father);
+        dest.writeString(mother);
+        dest.writeString(spouse);
     }
 
     public static final Parcelable.Creator<Person> CREATOR
@@ -80,8 +80,8 @@ public class Person implements Parcelable {
         firstName = in.readString();
         lastName = in.readString();
         gender  = in.readString();
-        fatherID = in.readString();
-        motherID = in.readString();
-        spouseID = in.readString();
+        father = in.readString();
+        mother = in.readString();
+        spouse = in.readString();
     }
 }

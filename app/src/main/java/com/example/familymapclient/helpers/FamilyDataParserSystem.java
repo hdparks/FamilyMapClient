@@ -14,9 +14,10 @@ import java.util.Map;
 public class FamilyDataParserSystem {
     private static Logger log = new Logger("FamilyDataParserSystem");
 
-    // TODO: 3/23/2019 SEPARATE THIS PART DOWN INTO NEW DATA SORT CLASS
 
     public static void parseFamilyData(Person[] persons, Event[] events) throws Exception{
+
+        log.d("PARSING " + persons.length + " Persons, " + events.length + " events");
 
 
         //  Set up dictionaries from personID to FamilyMember
@@ -42,7 +43,7 @@ public class FamilyDataParserSystem {
         populateEventMap(eventMap, familyMemberIDMap, eventIDMap, personEventListMap, userPerson);
 
         //  Assign these values to the cache
-
+        log.d("Assigning to datacache instance");
         dataCache.familyMemberMap = familyMemberIDMap;
         dataCache.eventMap = eventMap;
         dataCache.personEventListMap = personEventListMap;
@@ -57,23 +58,29 @@ public class FamilyDataParserSystem {
                                          Map<String, Event> eventIDMap,
                                          Map<String, List<String>> personEventListMap,
                                          FamilyMember userPerson) {
+        log.d("Populating FilteredMap");
 
         //  Start with the User's events
         boolean isFemale = userPerson.getGender().toLowerCase().equals("f");
         List<String> eventIDs = personEventListMap.get(userPerson.getPersonID());
 
-        for(String id: eventIDs){
-            eventMap.putUserEvent(eventIDMap.get(id), isFemale);
+        if (eventIDs != null){
+            log.d("Doing User's events");
+            for(String id: eventIDs){
+                eventMap.putUserEvent(eventIDMap.get(id), isFemale);
+            }
         }
 
         //  Now move up the line on Mother's side
         if (userPerson.getMotherID() != null){
+            log.d("Moving up mother's side");
             FamilyMember mother = familyMemberIDMap.get(userPerson.getMotherID());
             populateMaternalSide(eventMap,familyMemberIDMap,eventIDMap,personEventListMap,mother);
         }
 
         //  And Father's side
         if (userPerson.getFatherID() != null){
+            log.d("Moving up mother's side");
             FamilyMember father = familyMemberIDMap.get(userPerson.getFatherID());
             populatePaternalSide(eventMap,familyMemberIDMap,eventIDMap,personEventListMap,father);
         }
@@ -86,9 +93,10 @@ public class FamilyDataParserSystem {
                                              FamilyMember matPerson){
         boolean isFemale = matPerson.getGender().toLowerCase().equals("f");
         List<String> eventIDs = personEventListMap.get(matPerson.getPersonID());
-
-        for(String id: eventIDs){
-            eventMap.putEvent(eventIDMap.get(id), true, isFemale);
+        if (eventIDs != null){
+            for(String id: eventIDs){
+                eventMap.putEvent(eventIDMap.get(id), true, isFemale);
+            }
         }
 
         //  Now move up the line on Mother's side
@@ -109,8 +117,10 @@ public class FamilyDataParserSystem {
         boolean isFemale = patPerson.getGender().toLowerCase().equals("f");
         List<String> eventIDs = personEventListMap.get(patPerson.getPersonID());
 
-        for(String id: eventIDs){
-            eventMap.putEvent(eventIDMap.get(id),false, isFemale);
+        if (eventIDs != null){
+            for(String id: eventIDs){
+                eventMap.putEvent(eventIDMap.get(id),false, isFemale);
+            }
         }
 
         //  Now move up the line on Mother's side
@@ -139,6 +149,8 @@ public class FamilyDataParserSystem {
         //  Set up dictionaries from personID to Person
         Map<String, FamilyMember> personMap = new HashMap<>();
         for (Person person : persons){
+            FamilyMember familyMember = new FamilyMember(person);
+            log.d(familyMember.toString());
             personMap.put(person.getPersonID(), new FamilyMember(person));
         }
         return personMap;
@@ -169,10 +181,15 @@ public class FamilyDataParserSystem {
             //  Add to father's child list
             if (child.getFatherID() != null){
                 familyMemberMap.get(child.getFatherID()).getChildrenIDList().add(child.getPersonID());
+            } else {
+                log.d(child.getPersonID() + " has no father ");
+
             }
             //  Add to mother's child list
             if (child.getMotherID() != null){
                 familyMemberMap.get(child.getMotherID()).getChildrenIDList().add(child.getPersonID());
+            } else {
+                log.d(child.getPersonID() + " has no mother ");
             }
         }
     }

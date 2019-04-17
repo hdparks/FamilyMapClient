@@ -115,11 +115,19 @@ public class FilteredMap {
         Side side = sideMap.get(eventID);
         switch (side) {
             case Father:
-                if (!paternalFilter.getActive()) return null;
-                break;
+                if (!paternalFilter.getActive()) {
+                    log.d("Father Filter off");
+                    return null;
+                }
+            break;
 
             case Mother:
-                if (!maternalFilter.getActive()) return null;
+                if (!maternalFilter.getActive()) {
+                    log.d("Mother Filter off");
+                    return null;
+
+                }
+
                 break;
 
             case User:
@@ -147,7 +155,7 @@ public class FilteredMap {
     }
 
     public List<Event> getFilteredEvents() {
-
+        log.d("Sorting through "+eventMap.keySet().size()+ " Events");
         List<Event> events = new ArrayList<>();
 
         for (String id: eventMap.keySet()){

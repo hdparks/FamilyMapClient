@@ -9,17 +9,18 @@ import java.util.List;
 public class FamilyMember implements Parcelable {
     String personID;
     String firstName;
+
     String lastName;
+
     String gender;
     String fatherID;
     String motherID;
     String spouseID;
     List<String> childrenIDList;
-
-
     public List<String> getChildrenIDList() {
         return childrenIDList;
     }
+
 
     public String getPersonID() {
         return personID;
@@ -77,18 +78,18 @@ public class FamilyMember implements Parcelable {
         this.spouseID = spouseID;
     }
 
-
-
     public FamilyMember(Person person){
         this.personID = person.personID;
         this.firstName = person.firstName;
         this.lastName = person.lastName;
         this.gender = person.gender;
-        this.fatherID = person.fatherID;
-        this.motherID = person.motherID;
-        this.spouseID = person.spouseID;
+        this.fatherID = person.father;
+        this.motherID = person.mother;
+        this.spouseID = person.spouse;
         this.childrenIDList = new ArrayList<>();
     }
+
+
 
     @Override
     public int describeContents() {
@@ -125,5 +126,18 @@ public class FamilyMember implements Parcelable {
         spouseID = in.readString();
         childrenIDList = new ArrayList<>();
         in.readStringList(childrenIDList);
+    }
+
+    @Override
+    public String toString() {
+        return "FamilyMember{" +
+                "personID='" + personID + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", gender='" + gender + '\'' +
+                ", father='" + fatherID + '\'' +
+                ", mother='" + motherID + '\'' +
+                ", spouse='" + spouseID + '\'' +
+                '}';
     }
 }
