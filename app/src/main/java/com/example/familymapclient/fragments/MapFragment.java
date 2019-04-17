@@ -41,7 +41,9 @@ import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.fonts.FontAwesomeIcons;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class MapFragment extends Fragment implements OnMapReadyCallback {
@@ -55,11 +57,16 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private List<Event> eventList;
     private Event currentEvent;
     private boolean menu = true;
+    private Map<String, Integer> eventTypeToColor;
+
+    private static int[] colorList = {Color.RED,Color.YELLOW, Color.GREEN,Color.CYAN,Color.MAGENTA,Color.GRAY,Color.LTGRAY,Color.WHITE};
 
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
+        eventTypeToColor = new HashMap<>();
 
         if (getArguments() != null){
             currentEvent = getArguments().getParcelable(ARG_SELECTED_EVENT);
@@ -120,6 +127,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private void updateMap(){
         //  Clear Map
         map.clear();
+
 
         //  Draw events
         for (Event e : eventList){
@@ -272,7 +280,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     }
 
     private int getColor(Event event){
-        // TODO: 4/15/2019 Color logic here
+        Integer color = eventTypeToColor.get(event.getEventType());
+        if (color == null){
+            eventTypeToColor.put(event.getEventType(), eventTypeToColor.keySet().size() +1);
+        }
+        // TODO: 4/16/19 FINISH THIS 
         return android.R.color.holo_red_dark;
     }
 
