@@ -73,7 +73,7 @@ public class FilteredMap {
     public void putUserEvent(Event event, boolean isFemale){
         this.genderMap.put(event.getEventID(), isFemale ? Gender.f : Gender.m);
         this.sideMap.put(event.getEventID(),Side.User);
-        this.typeMap.put(event.getEventID(),event.getEventType());
+        this.typeMap.put(event.getEventID(),event.getEventType().toLowerCase());
 
         updateFilterMap(event);
 
@@ -123,6 +123,7 @@ public class FilteredMap {
                 break;
 
             case User:
+                log.d("Getting User Event");
                 break;
 
             default:
